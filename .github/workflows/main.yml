@@ -248,6 +248,12 @@ jobs:
             if ($exeFile) { Copy-Item $exeFile "$edgePath\setdll-x64.exe" -Force }
             if ($dllFile) { Copy-Item $dllFile "$edgePath\version.dll" -Force }
             
+            # Override chrome++.ini with project's custom version
+            if (Test-Path "$env:GITHUB_WORKSPACE\chrome++.ini") {
+              Copy-Item "$env:GITHUB_WORKSPACE\chrome++.ini" "$edgePath\chrome++.ini" -Force
+              Write-Host "  Copied custom chrome++.ini from project" -ForegroundColor Cyan
+            }
+            
             Push-Location $edgePath
             & ".\setdll-x64.exe" /d:version.dll msedge.exe | Out-Null
             Pop-Location
@@ -299,18 +305,29 @@ jobs:
     - name: Generate latest versions JSON
       if: steps.process-releases.outputs.HAS_NEW_RELEASES == 'true'
       shell: powershell
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        Write-Host "Waiting 30 seconds for GitHub API cache to clear..." -ForegroundColor Yellow
+        Start-Sleep -Seconds 30
         Write-Host "Generating latest-versions.json..." -ForegroundColor Yellow
+        
+        $headers = @{
+          'Authorization' = "token $env:GITHUB_TOKEN"
+          'Accept' = 'application/vnd.github.v3+json'
+        }
         
         $allReleases = @()
         $page = 1
         do {
-          $releases = Invoke-RestMethod "https://api.github.com/repos/${{ github.repository }}/releases?page=$page&per_page=100"
+          $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/releases?page=$page&per_page=100" -Headers $headers
           if ($releases.Count -gt 0) {
             $allReleases += $releases
           }
           $page++
         } while ($releases.Count -eq 100)
+        
+        Write-Host "Total releases found: $($allReleases.Count)" -ForegroundColor Cyan
         
         $channels = @{}
         $channelNames = @{
