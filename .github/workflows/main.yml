@@ -240,9 +240,13 @@ jobs:
               }
             }
             
-            Copy-Item "$chromeNextExtractDir\chrome++.ini" "$edgePath\chrome++.ini" -Force
-            Copy-Item "$chromeNextExtractDir\setdll-x64.exe" "$edgePath\setdll-x64.exe" -Force
-            Copy-Item "$chromeNextExtractDir\version.dll" "$edgePath\version.dll" -Force
+            $iniFile = Get-ChildItem -Path $chromeNextExtractDir -Filter "chrome++.ini" -Recurse | Select-Object -ExpandProperty FullName -First 1
+            $exeFile = Get-ChildItem -Path $chromeNextExtractDir -Filter "setdll-x64.exe" -Recurse | Select-Object -ExpandProperty FullName -First 1
+            $dllFile = Get-ChildItem -Path $chromeNextExtractDir -Filter "version.dll" -Recurse | Select-Object -ExpandProperty FullName -First 1
+            
+            if ($iniFile) { Copy-Item $iniFile "$edgePath\chrome++.ini" -Force }
+            if ($exeFile) { Copy-Item $exeFile "$edgePath\setdll-x64.exe" -Force }
+            if ($dllFile) { Copy-Item $dllFile "$edgePath\version.dll" -Force }
             
             Push-Location $edgePath
             & ".\setdll-x64.exe" /d:version.dll msedge.exe | Out-Null
