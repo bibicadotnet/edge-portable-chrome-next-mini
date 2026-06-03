@@ -1,0 +1,355 @@
+name: Edge Multi Portable Auto Builder
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Chạy mỗi giờ
+  workflow_dispatch:  # Cho phép chạy thủ công
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  check-and-build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Get all Edge releases and existing releases
+      id: fetch-data
+      shell: powershell
+      run: |
+        try {
+          Write-Host "=== FETCHING EDGE RELEASES ===" -ForegroundColor Yellow
+          $maxRetries = 3
+          $retryCount = 0
+          $edgeReleases = $null
+          
+          do {
+            try {
+              $edgeReleases = @()
+              $page = 1
+              do {
+                Write-Host "Fetching Edge releases page $page..." -ForegroundColor Cyan
+                $pageReleases = Invoke-RestMethod "https://api.github.com/repos/bibicadotnet/edge_installer_multi/releases?page=$page&per_page=100"
+                if ($pageReleases.Count -gt 0) {
+                  $edgeReleases += $pageReleases
+                  $page++
+                }
+              } while ($pageReleases.Count -eq 100)
+              Write-Host "Total Edge releases: $($edgeReleases.Count)" -ForegroundColor Green
+              break
+            } catch {
+              $retryCount++
+              Write-Host "API call failed (attempt $retryCount/$maxRetries): $($_.Exception.Message)" -ForegroundColor Red
+              if ($retryCount -lt $maxRetries) {
+                Start-Sleep -Seconds (30 * $retryCount)
+              } else {
+                throw
+              }
+            }
+          } while ($retryCount -lt $maxRetries)
+          
+          Write-Host "`n=== FETCHING EXISTING RELEASES ===" -ForegroundColor Yellow
+          $existingReleases = @()
+          $page = 1
+          $headers = @{
+            'Authorization' = 'token ${{ secrets.GITHUB_TOKEN }}'
+            'Accept' = 'application/vnd.github.v3+json'
+          }
+          
+          do {
+            Write-Host "Fetching existing releases page $page..." -ForegroundColor Cyan
+            $pageReleases = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/releases?page=$page&per_page=100" -Headers $headers
+            if ($pageReleases.Count -gt 0) {
+              $existingReleases += $pageReleases
+              $page++
+            }
+          } while ($pageReleases.Count -eq 100)
+          
+          Write-Host "Total existing releases: $($existingReleases.Count)" -ForegroundColor Green
+          
+          # Tạo lookup table
+          $existingTags = @{}
+          foreach ($r in $existingReleases) {
+            if ($r.tag_name -match '^edge-(\w+)-portable-(\w+)_([\d\.]+)_') {
+              $key = "edge-$($matches[1])-portable-$($matches[2])_$($matches[3])_"
+              $existingTags[$key] = $r.tag_name
+            }
+          }
+          Write-Host "Created lookup table with $($existingTags.Count) patterns" -ForegroundColor Green
+          
+          # Save to files
+          $existingTags | ConvertTo-Json | Out-File -FilePath "existing_tags.json" -Encoding UTF8
+          
+          # Process Edge releases
+          $releaseData = @()
+          foreach ($release in $edgeReleases) {
+            if ($release.tag_name -match '^(stable|beta|dev|canary)-(.+)$') {
+              $channel = $matches[1]
+              $version = $matches[2]
+              
+              $arch = "x64"
+              $assetName = "edge-$channel-$arch-$version.zip"
+              $asset = $release.assets | Where-Object { $_.name -eq $assetName }
+              
+              if ($asset) {
+                $releaseData += @{
+                  tag = $release.tag_name
+                  channel = $channel
+                  version = $version
+                  arch = $arch
+                  assetName = $assetName
+                  assetUrl = $asset.browser_download_url
+                }
+              }
+            }
+          }
+          
+          $releaseData | ConvertTo-Json -Depth 10 | Out-File -FilePath "edge_releases.json" -Encoding UTF8
+          Write-Host "`nProcessed $($releaseData.Count) Edge releases with x64 assets" -ForegroundColor Green
+          
+          $releasesCount = $releaseData.Count
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "RELEASES_COUNT=$releasesCount"
+          
+        } catch {
+          Write-Error "Failed: $($_.Exception.Message)"
+          exit 1
+        }
+        
+    - name: Get latest chrome-next-mini version
+      id: chromenext-version
+      shell: powershell
+      run: |
+        try {
+          $chromeNextRelease = Invoke-RestMethod "https://api.github.com/repos/bibicadotnet/chrome-next-mini/releases/latest"
+          $chromeNextVersion = $chromeNextRelease.tag_name
+          $chromeNextAssetUrl = ($chromeNextRelease.assets | Where-Object { $_.name -like "*.zip" } | Select-Object -First 1).browser_download_url
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "CHROMENEXT_VERSION=$chromeNextVersion"
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "CHROMENEXT_ASSET_URL=$chromeNextAssetUrl"
+          Write-Host "chrome-next-mini version: $chromeNextVersion" -ForegroundColor Green
+        } catch {
+          Write-Error "Failed to get chrome-next-mini version: $($_.Exception.Message)"
+          exit 1
+        }
+        
+    - name: Process all releases
+      id: process-releases
+      shell: powershell
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        Write-Host "=== PROCESSING RELEASES ===" -ForegroundColor Yellow
+        
+        $releaseDataJson = Get-Content "edge_releases.json" -Raw
+        $releaseData = $releaseDataJson | ConvertFrom-Json
+        
+        $existingTagsJson = Get-Content "existing_tags.json" -Raw
+        $existingTags = $existingTagsJson | ConvertFrom-Json
+        
+        Write-Host "Loaded $($releaseData.Count) Edge releases" -ForegroundColor Cyan
+        Write-Host "Loaded $($existingTags.PSObject.Properties.Count) existing patterns`n" -ForegroundColor Cyan
+        
+        $hasNewReleases = $false
+        $processedCount = 0
+        $skippedCount = 0
+        
+        $chromeNextVer = "${{ steps.chromenext-version.outputs.CHROMENEXT_VERSION }}"
+        $chromeNextAssetUrl = "${{ steps.chromenext-version.outputs.CHROMENEXT_ASSET_URL }}"
+        
+        foreach ($edgeRelease in $releaseData) {
+          $channel = $edgeRelease.channel
+          $version = $edgeRelease.version
+          $arch = $edgeRelease.arch
+          $releaseTag = "edge-$channel-portable-$arch" + "_" + $version + "_" + $chromeNextVer
+          $searchPattern = "edge-$channel-portable-$arch" + "_" + $version + "_"
+          
+          if ($existingTags.PSObject.Properties.Name -contains $searchPattern) {
+            $existingTag = $existingTags.$searchPattern
+            Write-Host "[$($skippedCount + 1)] SKIP: $channel $version $arch (exists: $existingTag)" -ForegroundColor Yellow
+            $skippedCount++
+            continue
+          }
+          
+          $processedCount++
+          Write-Host "`n[$processedCount] BUILD: $channel $version $arch" -ForegroundColor Green
+          
+          Stop-Process -Name msedge,MicrosoftEdgeUpdate,edgeupdate,edgeupdatem,MicrosoftEdgeSetup -Force -ErrorAction SilentlyContinue
+          
+          $rootPath = "$env:GITHUB_WORKSPACE\$releaseTag"
+          $portablePath = "$rootPath\Edge_Portable"
+          $edgePath = "$portablePath\Edge"
+          $tempDir = "$env:TEMP\EdgeInstaller_" + $channel + "_" + $version + "_" + $arch
+          
+          if (Test-Path $tempDir) { Remove-Item $tempDir -Recurse -Force }
+          if (Test-Path $rootPath) { Remove-Item $rootPath -Recurse -Force }
+          New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
+          New-Item -ItemType Directory -Path $rootPath -Force | Out-Null
+          New-Item -ItemType Directory -Path $portablePath -Force | Out-Null
+          New-Item -ItemType Directory -Path $edgePath -Force | Out-Null
+          
+          try {
+            Write-Host "  Downloading..." -ForegroundColor Cyan
+            $assetUrl = $edgeRelease.assetUrl
+            $assetName = $edgeRelease.assetName
+            $assetPath = "$tempDir\$assetName"
+            (New-Object System.Net.WebClient).DownloadFile($assetUrl, $assetPath)
+            (New-Object System.Net.WebClient).DownloadFile("https://www.7-zip.org/a/7zr.exe", "$tempDir\7zr.exe")
+            
+            (New-Object System.Net.WebClient).DownloadFile($chromeNextAssetUrl, "$tempDir\chromenext.zip")
+
+            Copy-Item "$env:GITHUB_WORKSPACE\debloater.reg" "$edgePath\debloater.reg" -Force
+            Copy-Item "$env:GITHUB_WORKSPACE\default-apps-multi-profile.bat" "$edgePath\default-apps-multi-profile.bat" -Force
+
+            Write-Host "  Customizing update.bat..." -ForegroundColor Cyan
+            $updateBatUrl = "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main/update.bat"
+            $tempUpdateBat = "$tempDir\update_template.bat"
+            (New-Object System.Net.WebClient).DownloadFile($updateBatUrl, $tempUpdateBat)
+            
+            $channelTitle = $channel.Substring(0,1).ToUpper() + $channel.Substring(1).ToLower()
+            $channelLower = $channel.ToLower()
+            $updateBatContent = Get-Content $tempUpdateBat -Raw
+            $updateBatContent = $updateBatContent -replace '\{CHANNEL\}', $channelTitle
+            $updateBatContent = $updateBatContent -replace '\{CHANNEL_TITLE\}', $channelTitle
+            $updateBatContent = $updateBatContent -replace '\{CHANNEL_LOWER\}', $channelLower
+            $updateBatContent | Out-File -FilePath "$edgePath\update.bat" -Encoding ASCII
+            
+            Write-Host "  Extracting..." -ForegroundColor Cyan
+            $sevenZPath = "$tempDir\7zr.exe"
+            $extractDir = "$tempDir\extract"
+            & $sevenZPath x $assetPath "-o$extractDir" -y | Out-Null
+            
+            $msedge7z = Get-ChildItem -Path $extractDir -Name "MSEDGE.7z" -Recurse | Select-Object -First 1
+            $msedgeDir = "$tempDir\msedge"
+            $msedge7zPath = "$extractDir\$msedge7z"
+            & $sevenZPath x $msedge7zPath "-o$msedgeDir" -y | Out-Null
+            
+            $chromeNextExtractDir = "$tempDir\chromenext"
+            Expand-Archive -Path "$tempDir\chromenext.zip" -DestinationPath $chromeNextExtractDir -Force
+            
+            Write-Host "  Installing..." -ForegroundColor Cyan
+            $versionFolder = Get-ChildItem -Path $msedgeDir -Directory -Recurse | Where-Object { $_.Name -match "^\d+\.\d+\.\d+\.\d+$" } | Select-Object -First 1
+            if ($versionFolder) {
+              $versionFolderName = $versionFolder.Name
+              Copy-Item $versionFolder.FullName "$edgePath\$versionFolderName" -Recurse -Force
+              $sourceFile = Get-ChildItem -Path $msedgeDir -Name "msedge.exe" -Recurse | Select-Object -First 1
+              if ($sourceFile) {
+                Copy-Item "$msedgeDir\$sourceFile" "$edgePath\msedge.exe" -Force
+              }
+            }
+            
+            Copy-Item "$chromeNextExtractDir\chrome++.ini" "$edgePath\chrome++.ini" -Force
+            Copy-Item "$chromeNextExtractDir\setdll-x64.exe" "$edgePath\setdll-x64.exe" -Force
+            Copy-Item "$chromeNextExtractDir\version.dll" "$edgePath\version.dll" -Force
+            
+            Push-Location $edgePath
+            & ".\setdll-x64.exe" /d:version.dll msedge.exe | Out-Null
+            Pop-Location
+            
+            Remove-Item $tempDir -Recurse -Force
+            Remove-Item "$edgePath\setdll-x64.exe" -Force -ErrorAction SilentlyContinue
+            Remove-Item "$edgePath\msedge.exe~" -Force -ErrorAction SilentlyContinue
+            
+            Write-Host "  Creating ZIP..." -ForegroundColor Cyan
+            $zipPath = "$env:GITHUB_WORKSPACE\$releaseTag.zip"
+            Compress-Archive -Path "$rootPath\*" -DestinationPath $zipPath -CompressionLevel Optimal
+            
+            Write-Host "  Creating release..." -ForegroundColor Cyan
+            $releaseTitle = "$channel-portable-$arch" + "_" + $version + "_" + $chromeNextVer
+            $releaseBody = "**Microsoft Edge $channel $arch Portable with chrome-next-mini Auto Build**`n`n**Edge Version:** $version`n**chrome-next-mini Version:** $chromeNextVer`n**Channel:** $channel`n**Architecture:** $arch`n`n## What's Included`n- Microsoft Edge $channel $arch Portable`n- chrome-next-mini enhancements`n- Pre-configured settings`n- Auto-updater script`n`n## Installation`n1. Download the ZIP file`n2. Extract to your desired location`n3. Run Edge_Portable\Edge\msedge.exe`n`n## Update`n1. Run Edge_Portable\Edge\update.bat`n2. Your settings and chrome++.ini configuration will be preserved`n`n## Features`n- Fully portable - no installation required`n- Enhanced with chrome-next-mini features`n- Auto-configured for optimal experience`n- Easy update mechanism`n`n---`n*This release was automatically generated by GitHub Actions*"
+            
+            gh release create $releaseTag --title $releaseTitle --notes $releaseBody --repo ${{ github.repository }} $zipPath
+            Write-Host "  Success!" -ForegroundColor Green
+
+            try {
+              Set-MpPreference -DisableRealtimeMonitoring $false
+              Set-MpPreference -SubmitSamplesConsent SendAllSamples
+              Start-MpScan -ScanType CustomScan -ScanPath $rootPath
+            } catch {
+              Write-Host "  Defender scan skipped" -ForegroundColor Yellow
+            }
+            
+            $hasNewReleases = $true
+            
+            Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
+            Remove-Item $rootPath -Recurse -Force -ErrorAction SilentlyContinue
+            
+          } catch {
+            Write-Host "  Failed: $($_.Exception.Message)" -ForegroundColor Red
+            Remove-Item $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item $rootPath -Recurse -Force -ErrorAction SilentlyContinue
+          }
+        }
+        
+        Write-Host "`n=== SUMMARY ===" -ForegroundColor Yellow
+        Write-Host "Processed: $processedCount | Skipped: $skippedCount" -ForegroundColor Cyan
+        
+        if ($hasNewReleases) {
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "HAS_NEW_RELEASES=true"
+        } else {
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "HAS_NEW_RELEASES=false"
+        }
+
+    - name: Generate latest versions JSON
+      if: steps.process-releases.outputs.HAS_NEW_RELEASES == 'true'
+      shell: powershell
+      run: |
+        Write-Host "Generating latest-versions.json..." -ForegroundColor Yellow
+        
+        $allReleases = @()
+        $page = 1
+        do {
+          $releases = Invoke-RestMethod "https://api.github.com/repos/${{ github.repository }}/releases?page=$page&per_page=100"
+          if ($releases.Count -gt 0) {
+            $allReleases += $releases
+          }
+          $page++
+        } while ($releases.Count -eq 100)
+        
+        $channels = @{}
+        $channelNames = @{
+          'stable' = 'Microsoft Edge Stable'
+          'beta' = 'Microsoft Edge Beta'
+          'dev' = 'Microsoft Edge Developer'
+          'canary' = 'Microsoft Edge Canary'
+        }
+        
+        foreach ($release in $allReleases) {
+          if ($release.tag_name -match '^edge-(stable|beta|dev|canary)-portable-x64_([\d\.]+)_([a-zA-Z0-9\.\-]+)$') {
+            $channel = $matches[1]
+            $edgeVer = $matches[2]
+            $chromeNextVer = $matches[3]
+            
+            if (-not $channels.ContainsKey($channel)) {
+              $tagName = $release.tag_name
+              $downloadUrl = "https://github.com/${{ github.repository }}/releases/download/$tagName/$tagName.zip"
+              $channels[$channel] = @{
+                name = $channelNames[$channel]
+                version = $edgeVer
+                chromeNext = $chromeNextVer
+                published_at = $release.published_at
+                download_url = $downloadUrl
+                tag_name = $tagName
+              }
+            }
+          }
+        }
+        
+        $jsonData = @{
+          last_updated = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+          channels = $channels
+        }
+        
+        $jsonData | ConvertTo-Json -Depth 10 | Out-File -FilePath "latest-versions.json" -Encoding UTF8
+        Write-Host "Generated latest-versions.json" -ForegroundColor Green
+        
+    - name: Commit latest-versions.json
+      if: steps.process-releases.outputs.HAS_NEW_RELEASES == 'true'
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add latest-versions.json
+        git commit -m "Update latest-versions.json"
+        git push
