@@ -202,6 +202,7 @@ jobs:
 
             Copy-Item "$env:GITHUB_WORKSPACE\debloater.reg" "$edgePath\debloater.reg" -Force
             Copy-Item "$env:GITHUB_WORKSPACE\default-apps-multi-profile.bat" "$edgePath\default-apps-multi-profile.bat" -Force
+            Copy-Item "$env:GITHUB_WORKSPACE\bypass_windows_defender.bat" "$edgePath\bypass_windows_defender.bat" -Force
 
             Write-Host "  Customizing update.bat..." -ForegroundColor Cyan
             $updateBatUrl = "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main/update.bat"
