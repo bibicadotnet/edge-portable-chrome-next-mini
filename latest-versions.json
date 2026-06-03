@@ -1,20 +1,20 @@
 ﻿{
     "channels":  {
                      "canary":  {
-                                    "version":  "150.0.4072.0",
+                                    "version":  "150.0.4073.0",
                                     "name":  "Microsoft Edge Canary",
-                                    "published_at":  "2026-06-03T21:20:43Z",
+                                    "published_at":  "2026-06-03T22:29:07Z",
                                     "chromeNext":  "v1.0.0",
-                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_150.0.4072.0_v1.0.0/edge-canary-portable-x64_150.0.4072.0_v1.0.0.zip",
-                                    "tag_name":  "edge-canary-portable-x64_150.0.4072.0_v1.0.0"
+                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_150.0.4073.0_v1.0.0/edge-canary-portable-x64_150.0.4073.0_v1.0.0.zip",
+                                    "tag_name":  "edge-canary-portable-x64_150.0.4073.0_v1.0.0"
                                 },
                      "beta":  {
-                                  "version":  "149.0.4022.45",
+                                  "version":  "149.0.4022.50",
                                   "name":  "Microsoft Edge Beta",
-                                  "published_at":  "2026-06-03T21:21:58Z",
+                                  "published_at":  "2026-06-03T22:30:34Z",
                                   "chromeNext":  "v1.0.0",
-                                  "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-beta-portable-x64_149.0.4022.45_v1.0.0/edge-beta-portable-x64_149.0.4022.45_v1.0.0.zip",
-                                  "tag_name":  "edge-beta-portable-x64_149.0.4022.45_v1.0.0"
+                                  "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-beta-portable-x64_149.0.4022.50_v1.0.0/edge-beta-portable-x64_149.0.4022.50_v1.0.0.zip",
+                                  "tag_name":  "edge-beta-portable-x64_149.0.4022.50_v1.0.0"
                               },
                      "dev":  {
                                  "version":  "150.0.4055.0",
@@ -33,5 +33,5 @@
                                     "tag_name":  "edge-stable-portable-x64_148.0.3967.96_v1.0.0"
                                 }
                  },
-    "last_updated":  "2026-06-03T21:22:29Z"
+    "last_updated":  "2026-06-03T22:31:05Z"
 }
