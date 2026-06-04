@@ -1,6 +1,9 @@
-# Microsoft Edge (Stable, Beta, Dev, Canary) Portable
+# Microsoft Edge (Stable, Beta, Dev, Canary) Portable (Chrome++ Next Mini)
 
 No installation required. Keeps all history, cookies, extensions, and settings even when moved to another device.
+
+- This is a test version, to see if it still experiences random crashes.
+
 
 ### Script features:
  
