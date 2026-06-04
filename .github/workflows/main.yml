@@ -304,7 +304,6 @@ jobs:
         }
 
     - name: Generate latest versions JSON
-      if: steps.process-releases.outputs.HAS_NEW_RELEASES == 'true'
       shell: powershell
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -368,11 +367,20 @@ jobs:
         Write-Host "Generated latest-versions.json" -ForegroundColor Green
         
     - name: Commit latest-versions.json
-      if: steps.process-releases.outputs.HAS_NEW_RELEASES == 'true'
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git pull --rebase origin main
-        git add latest-versions.json
-        git commit -m "Update latest-versions.json"
-        git push
+        if (Test-Path "latest-versions.json") {
+          git add latest-versions.json
+          $status = git status --porcelain latest-versions.json
+          if ($status) {
+            git commit -m "Update latest-versions.json"
+            git push
+          } else {
+            Write-Host "latest-versions.json unchanged, skipping commit"
+          }
+        } else {
+          Write-Host "latest-versions.json not found, skipping commit"
+        }
+      shell: powershell
