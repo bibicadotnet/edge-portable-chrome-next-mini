@@ -358,13 +358,45 @@ jobs:
           }
         }
         
-        $jsonData = @{
-          last_updated = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
-          channels = $channels
+        $needsUpdate = $true
+        if (Test-Path "latest-versions.json") {
+          try {
+            $existingData = Get-Content "latest-versions.json" -Raw | ConvertFrom-Json
+            $isSame = $true
+            
+            $existingCount = @($existingData.channels.PSObject.Properties).Count
+            if ($existingCount -ne $channels.Count) {
+              $isSame = $false
+            } else {
+              foreach ($key in $channels.Keys) {
+                $existingChannel = $existingData.channels.$key
+                if ($null -eq $existingChannel -or 
+                    $existingChannel.version -ne $channels[$key].version -or 
+                    $existingChannel.tag_name -ne $channels[$key].tag_name) {
+                  $isSame = $false
+                  break
+                }
+              }
+            }
+            
+            if ($isSame) {
+              $needsUpdate = $false
+              Write-Host "No version changes detected, skipping update of latest-versions.json" -ForegroundColor Yellow
+            }
+          } catch {
+            Write-Host "Could not parse existing latest-versions.json, will create new one" -ForegroundColor Yellow
+          }
         }
         
-        $jsonData | ConvertTo-Json -Depth 10 | Out-File -FilePath "latest-versions.json" -Encoding UTF8
-        Write-Host "Generated latest-versions.json" -ForegroundColor Green
+        if ($needsUpdate) {
+          $jsonData = @{
+            last_updated = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+            channels = $channels
+          }
+          
+          $jsonData | ConvertTo-Json -Depth 10 | Out-File -FilePath "latest-versions.json" -Encoding UTF8
+          Write-Host "Generated latest-versions.json" -ForegroundColor Green
+        }
         
     - name: Commit latest-versions.json
       run: |
