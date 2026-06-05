@@ -1,4 +1,4 @@
-# [Test Version] Microsoft Edge (Stable, Beta, Dev, Canary) Portable (Chrome++ Next Mini)
+# [Test Version] Microsoft Edge (Stable, Beta, Dev, Canary) Portable v2
 
 No installation required. Keeps all history, cookies, extensions, and settings even when moved to another device.
 
