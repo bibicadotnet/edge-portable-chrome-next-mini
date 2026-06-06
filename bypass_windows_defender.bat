@@ -11,16 +11,15 @@ if '%errorlevel%' NEQ '0' (
 
 :UACPrompt
     echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+    echo UAC.ShellExecute "%~f0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
     "%temp%\getadmin.vbs"
     exit /B
 
 :gotAdmin
     if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
     pushd "%~dp0"
-    set "currentDir=%~dp0"
-    :: Remove trailing backslash for consistent comparison
-    if "%currentDir:~-1%"=="\" set "currentDir=%currentDir:~0,-1%"
+
+    for %%I in ("%~dp0.") do set "currentDir=%%~fI"
 
     :: Define ANSI Escape Codes
     for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do set "ESC=%%b"
