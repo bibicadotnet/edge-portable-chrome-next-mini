@@ -264,8 +264,6 @@ Windows Registry Editor Version 5.00
 ;Tắt quản lý Edge
 "EdgeManagementEnabled"=dword:00000000
 
-
-
 ;Tắt nội dung trang tab mới
 "NewTabPageContentEnabled"=dword:00000000
 
