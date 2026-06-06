@@ -219,9 +219,6 @@ Windows Registry Editor Version 5.00
 ;Tắt SSO web AAD
 "AADWebSSOAllowed"=dword:00000000
 
-;Tắt chủ đề AI
-"AIGenThemesEnabled"=dword:00000000
-
 ;Tắt minh bạch quảng cáo
 "AdsTransparencyEnabled"=dword:00000000
 
@@ -267,8 +264,7 @@ Windows Registry Editor Version 5.00
 ;Tắt quản lý Edge
 "EdgeManagementEnabled"=dword:00000000
 
-;Tắt ngữ cảnh trang Copilot
-"CopilotPageContextEnabled"=dword:00000000
+
 
 ;Tắt nội dung trang tab mới
 "NewTabPageContentEnabled"=dword:00000000
@@ -312,17 +308,11 @@ Windows Registry Editor Version 5.00
 ;Tắt tự động điền ML
 "EdgeAutofillMlEnabled"=dword:00000000
 
-;Tắt cài đặt mô hình nền tảng GenAI cục bộ
-"GenAILocalFoundationalModelSettings"=dword:00000001
-
 ;Tắt cá nhân hóa trang web hàng đầu trong tùy chỉnh thanh bên
 "PersonalizeTopSitesInCustomizeSidebarEnabled"=dword:00000000
 
 ;Tắt phát hiện hiệu suất
 "PerformanceDetectorEnabled"=dword:00000000
-
-;Tắt ngữ cảnh trang Copilot Entra
-"EdgeEntraCopilotPageContext"=dword:00000000
 
 ;Tắt kiểm tra chính tả
 "SpellcheckEnabled"=dword:00000000
@@ -379,20 +369,36 @@ Windows Registry Editor Version 5.00
 ; Hiển thị nút tải xuống trên thanh công cụ
 "ShowDownloadsToolbarButton"=dword:00000001
 
-; Copilot sẽ không xuất hiện trên thanh công cụ
-"Microsoft365CopilotChatIconEnabled"=dword:00000000
-
-; Chặn tìm kiếm AI trong lịch sử duyệt web
-"EdgeHistoryAISearchEnabled"=dword:00000000
-
 ; Cloudflare Gateway DNS ECS (chặn quảng cáo bởi bộ lọc AdGuard và ABPVN)
 "DnsOverHttpsMode"="secure"
 "DnsOverHttpsTemplates"="https://iabucttpma.cloudflare-gateway.com/dns-query{?dns}"
 
-; v148
+"ApplicationBoundEncryptionEnabled"=dword:00000000
+
+; Copilot AI
 "AllowBrowsingWithCopilot"=dword:00000000
 "BuiltInAIAPIsEnabled"=dword:00000000
-"ApplicationBoundEncryptionEnabled"=dword:00000000
+; Copilot sẽ không xuất hiện trên thanh công cụ
+"Microsoft365CopilotChatIconEnabled"=dword:00000000
+;Tắt ngữ cảnh trang Copilot
+"CopilotPageContextEnabled"=dword:00000000
+;Tắt ngữ cảnh trang Copilot Entra
+"EdgeEntraCopilotPageContext"=dword:00000000
+; Chặn tìm kiếm AI trong lịch sử duyệt web
+"EdgeHistoryAISearchEnabled"=dword:00000000
+;Tắt chủ đề AI
+"AIGenThemesEnabled"=dword:00000000
+;Tắt cài đặt mô hình nền tảng GenAI cục bộ
+"GenAILocalFoundationalModelSettings"=dword:00000001
+
+"CopilotMode"=dword:00000000
+"CopilotMultitabEnabled"=dword:00000000
+"CopilotNewTabPageEnabled"=dword:00000000
+"CopilotPageContext"=dword:00000000
+"EdgeEntraCopilotPageContextIncludesHistory"=dword:00000000
+"M365LinksAutoOpenCopilotEnabled"=dword:00000000
+"ShareBrowsingHistoryWithCopilotSearchAllowed"=dword:00000000
+"CopilotAddressBarSuggestionsEnabled"=dword:00000000
 
 ; Chặn New Tab mặc định
 [HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge\URLBlocklist]
