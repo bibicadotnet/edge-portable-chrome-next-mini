@@ -564,8 +564,9 @@ Windows Registry Editor Version 5.00
 ; 4:14 AM Sunday, June 14, 2026
 "SmartScreenDnsRequestsEnabled"=dword:00000000
 "BrowserNetworkTimeQueriesEnabled"=dword:00000000
-"ClearCachedImagesAndFilesOnExit"=dword:00000000
+"ClearCachedImagesAndFilesOnExit"=dword:00000001
 "WhatsNewPageForEntraProfilesEnabled"=dword:00000000
+"QuickSearchShowMiniMenu"=dword:00000000
 
 ; Block the default New Tab
 ; Chặn New Tab mặc định
