@@ -1,12 +1,12 @@
 ﻿{
     "channels":  {
                      "beta":  {
-                                  "version":  "150.0.4078.42",
+                                  "version":  "150.0.4078.46",
                                   "name":  "Microsoft Edge Beta",
-                                  "published_at":  "2026-06-29T21:27:21Z",
+                                  "published_at":  "2026-07-01T23:14:03Z",
                                   "chromeNext":  "v1.0.3",
-                                  "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-beta-portable-x64_150.0.4078.42_v1.0.3/edge-beta-portable-x64_150.0.4078.42_v1.0.3.zip",
-                                  "tag_name":  "edge-beta-portable-x64_150.0.4078.42_v1.0.3"
+                                  "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-beta-portable-x64_150.0.4078.46_v1.0.3/edge-beta-portable-x64_150.0.4078.46_v1.0.3.zip",
+                                  "tag_name":  "edge-beta-portable-x64_150.0.4078.46_v1.0.3"
                               },
                      "dev":  {
                                  "version":  "151.0.4119.1",
@@ -33,5 +33,5 @@
                                     "tag_name":  "edge-stable-portable-x64_149.0.4022.98_v1.0.3"
                                 }
                  },
-    "last_updated":  "2026-07-01T21:28:08Z"
+    "last_updated":  "2026-07-01T23:14:35Z"
 }
