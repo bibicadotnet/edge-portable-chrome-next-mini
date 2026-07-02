@@ -1,12 +1,12 @@
 ﻿{
     "channels":  {
                      "beta":  {
-                                  "version":  "150.0.4078.46",
+                                  "version":  "150.0.4078.48",
                                   "name":  "Microsoft Edge Beta",
-                                  "published_at":  "2026-07-01T23:14:03Z",
+                                  "published_at":  "2026-07-02T21:05:28Z",
                                   "chromeNext":  "v1.0.3",
-                                  "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-beta-portable-x64_150.0.4078.46_v1.0.3/edge-beta-portable-x64_150.0.4078.46_v1.0.3.zip",
-                                  "tag_name":  "edge-beta-portable-x64_150.0.4078.46_v1.0.3"
+                                  "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-beta-portable-x64_150.0.4078.48_v1.0.3/edge-beta-portable-x64_150.0.4078.48_v1.0.3.zip",
+                                  "tag_name":  "edge-beta-portable-x64_150.0.4078.48_v1.0.3"
                               },
                      "dev":  {
                                  "version":  "151.0.4119.1",
@@ -17,12 +17,12 @@
                                  "tag_name":  "edge-dev-portable-x64_151.0.4119.1_v1.0.3"
                              },
                      "canary":  {
-                                    "version":  "152.0.4131.0",
+                                    "version":  "152.0.4132.0",
                                     "name":  "Microsoft Edge Canary",
-                                    "published_at":  "2026-07-02T15:16:14Z",
+                                    "published_at":  "2026-07-02T21:04:14Z",
                                     "chromeNext":  "v1.0.3",
-                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_152.0.4131.0_v1.0.3/edge-canary-portable-x64_152.0.4131.0_v1.0.3.zip",
-                                    "tag_name":  "edge-canary-portable-x64_152.0.4131.0_v1.0.3"
+                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_152.0.4132.0_v1.0.3/edge-canary-portable-x64_152.0.4132.0_v1.0.3.zip",
+                                    "tag_name":  "edge-canary-portable-x64_152.0.4132.0_v1.0.3"
                                 },
                      "stable":  {
                                     "version":  "149.0.4022.98",
@@ -33,5 +33,5 @@
                                     "tag_name":  "edge-stable-portable-x64_149.0.4022.98_v1.0.3"
                                 }
                  },
-    "last_updated":  "2026-07-02T15:16:52Z"
+    "last_updated":  "2026-07-02T21:06:00Z"
 }
