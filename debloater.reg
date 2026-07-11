@@ -515,10 +515,10 @@ Windows Registry Editor Version 5.00
 
 ; Force DNS over HTTPS (DoH)
 ; Bắt buộc sử dụng DNS qua HTTPS (DoH)
-; "DnsOverHttpsMode"="secure"
+"DnsOverHttpsMode"="secure"
 ; Use custom template for DNS over HTTPS - Cloudflare Gateway DNS ECS
 ; Sử dụng máy chủ tùy chỉnh cho DNS qua HTTPS - Cloudflare Gateway DNS ECS
-; "DnsOverHttpsTemplates"="https://iabucttpma.cloudflare-gateway.com/dns-query{?dns}"
+"DnsOverHttpsTemplates"="https://iabucttpma.cloudflare-gateway.com/dns-query{?dns}"
 
 ; Block the default New Tab
 ; Chặn New Tab mặc định
