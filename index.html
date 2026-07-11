@@ -265,6 +265,176 @@
                 gap: 5px;
             }
         }
+		
+		/* Ẩn footer */
+.atk-list-footer {
+display: none !important;
+}
+
+/* Ẩn link website khi comment */
+input[name="link"].atk-link {
+    display: none;
+}
+
+/* Bo tròn avatar */
+.atk-comment>.atk-avatar img {
+border-radius: 50% !important;
+}
+/* Tắt hiệu ứng a href khi user điền website, hạn chế spam link rác  */
+.atk-avatar a {
+	 pointer-events: none !important;
+ cursor: default !important;
+}
+
+
+
+
+
+/* Tăng font và điều chỉnh cách xuống dòng ở textarea gõ comment */
+.atk-main-editor>.atk-textarea-wrap>.atk-textarea {
+font-size: 17px !important;
+	word-wrap: break-word !important;
+}
+
+/* Tạo viền cho nick name gõ vào */
+.atk-main-editor>.atk-header input[type=text] {
+	border: 1px solid #ECEFF2 !important;
+	-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+
+/* Tạo viền cho email gõ vào */
+.atk-main-editor>.atk-header input[type=email] {
+border: 1px solid #ECEFF2;
+		-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+
+/* Điều chỉnh cách xuống dòng ở nội dung comment hiện ra */
+.atk-content p {
+word-break: break-word !important;
+}
+
+/* Điều chỉnh ảnh comment ở center */
+.atk-content img {
+	display: block;
+  margin-left: auto;
+  margin-right: auto;
+	margin-top: 15px !important;
+}
+
+
+/* Điều chỉnh button Send comment */
+.atk-main-editor>.atk-bottom .atk-send-btn {
+background: #575760 !important;
+font-size: 17px !important;
+height: 30px !important;
+width: 5em !important;
+margin: auto !important;
+padding: 0px !important;
+}
+
+/* Điều chỉnh màu sắc, cỡ chữ cho nick comment (Deep 1)  */
+.atk-comment>.atk-main>.atk-header .atk-item.atk-nick,.atk-comment>.atk-main>.atk-header .atk-item.atk-nick a {
+    font-size: 17px !important;
+    color: #28334a !important;
+       font-style: normal;
+    font-weight: 700;
+}
+
+/* Điều chỉnh màu sắc, cỡ chữ cho nick reply comment */
+.atk-comment>.atk-main>.atk-header .atk-item.atk-reply-at>.atk-nick {
+ color: #28334a !important;
+	font-weight: 600;
+}
+
+/* Điều chỉnh màu sắc, cỡ chữ khung Comment policy */
+p.comment-policy {
+    border: 1px solid #ffd499;
+    background-color: #fff4e5;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 0px 0px 10px 0px;
+    font-size: small;
+    font-style: italic;
+}
+
+/* Điều chỉnh nút reply @nickname xuống bên trái, tránh đè lên kí tự khi gõ  */
+.atk-send-reply {
+float: left;
+ position: sticky !important;
+margin-top: 5px !important;
+	margin-left: 10px !important;
+}
+@media only screen and (max-width: 768px) {
+  .atk-send-reply {
+position: absolute !important;
+}
+}
+
+/* Tắt hiệu ứng a href khi user điền website, hạn chế spam link rác  */
+.atk-comment>.atk-avatar img {
+ pointer-events: none !important;
+ cursor: default !important;
+}
+
+.atk-item.atk-nick a {
+ pointer-events: none !important;
+ cursor: default !important;
+}
+
+
+/* Gạch gang màu đỏ dưới chân link trong comment (bỏ qua hình ảnh) */
+.atk-content a:not(.atk-lightbox-img)  {
+    color: #28334a !important;
+    border-bottom: 2px solid rgba(236, 69, 72, 0.7);
+}
+
+
+/* Điều chỉnh các comment từ deep 2 trở đi bằng khoảng cách lệch, tác giả support */
+.atk-comment-children > .atk-comment-wrap {
+    margin-left: -47px!important;
+}
+.atk-list-comments-wrap > .atk-comment-wrap > .atk-comment > .atk-main > .atk-comment-children {
+    margin-left: 50px!important;
+}
+
+
+@media only screen and (max-width: 768px) {
+.atk-comment-children > .atk-comment-wrap {
+    margin-left: -47px!important;
+}
+	
+.atk-list-comments-wrap > .atk-comment-wrap > .atk-comment > .atk-main > .atk-comment-children  {
+    margin-left: 0px!important;
+}
+.atk-list-comments-wrap{
+    margin-left: -30px!important;
+}
+}
+
+/* Điều chỉnh phần [code] bên trong comment */
+.atk-content pre {
+  display: block;
+  margin: 0px 0px 20px 0px !important;
+}
+
+.atk-badge-wrap {
+  display: flex; /* Sử dụng Flexbox để đảm bảo các phần tử con nằm trên cùng một hàng */
+  align-items: center; /* Căn giữa theo chiều dọc nếu cần */
+  gap: 4px; /* Tạo khoảng cách giữa các biểu tượng, có thể thay đổi tùy ý */
+}
+
+.atk-verified-icon {
+  display: inline-block; /* Đảm bảo icon được hiển thị inline */
+}
+
+.atk-pinned-badge {
+  display: inline-block; /* Đảm bảo icon được hiển thị inline */
+}
+
     </style>
 </head>
 
