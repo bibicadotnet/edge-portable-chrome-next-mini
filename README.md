@@ -6,7 +6,7 @@ No installation required. Keeps all history, cookies, extensions, and settings e
 
 # Note:
 
-From July 11, 2026, Microsoft Edge Multi Portable v2 versions will configure the registry in a separate branch [HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge_Portable], not sharing the same branch as the regular default Edge version.
+From July 11, 2026, Microsoft Edge Multi Portable v2 versions will configure the registry in a separate branch `[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge_Portable]`, not sharing the same branch as the regular default Edge version.
 
 Microsoft Edge Multi Portable v2 is officially portable with all separate configurations, without touching the original Edge.
 
