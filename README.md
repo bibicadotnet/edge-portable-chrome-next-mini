@@ -17,7 +17,7 @@ Please delete the old `debloater.reg` and `chrome++.ini` files.
 
 Because the versions support different policies, sharing a single registry branch will cause conflicts or policy errors. By customizing `policy_key=Portable` in the `chrome++.ini` file, each portable version can point to a separate branch with independent settings, resolving this conflict.
 
-### Script features:
+## Script features:
  
 * Downloads the latest Edge Stable, Beta, Dev, or Canary x64 from [edge_installer_multi](https://github.com/bibicadotnet/edge_installer_multi/releases)
 * Integrates [chrome-next-mini](https://github.com/bibicadotnet/chrome-next-mini) for extra features
@@ -27,7 +27,7 @@ Because the versions support different policies, sharing a single registry branc
 
 ---
 
-### Files and Their Purposes
+## Files and Their Purposes
 
 * **chrome++.ini**: configuration file for chrome-next-mini
 * **debloater.reg**: removes unnecessary features from Microsoft Edge that I personally don’t use
@@ -36,13 +36,13 @@ Because the versions support different policies, sharing a single registry branc
 
 ---
 
-### DRM
+## DRM
 
 Videos, auto running through DRM will have errors, for example crunchyroll.com has error `SHAK-6007`
 
 No solution yet, because Secure Preferences has been bypassed
 
-### ⚠ Microsoft Defender Antivirus warning
+## ⚠ Microsoft Defender Antivirus warning
 
 <details>
   <summary>Click to expand</summary>
