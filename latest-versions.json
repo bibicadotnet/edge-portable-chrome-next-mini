@@ -1,13 +1,5 @@
 ﻿{
     "channels":  {
-                     "canary":  {
-                                    "version":  "152.0.4153.0",
-                                    "name":  "Microsoft Edge Canary",
-                                    "published_at":  "2026-07-13T16:32:24Z",
-                                    "chromeNext":  "v1.0.5",
-                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_152.0.4153.0_v1.0.5/edge-canary-portable-x64_152.0.4153.0_v1.0.5.zip",
-                                    "tag_name":  "edge-canary-portable-x64_152.0.4153.0_v1.0.5"
-                                },
                      "beta":  {
                                   "version":  "151.0.4129.21",
                                   "name":  "Microsoft Edge Beta",
@@ -24,6 +16,14 @@
                                  "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-dev-portable-x64_151.0.4129.21_v1.0.5/edge-dev-portable-x64_151.0.4129.21_v1.0.5.zip",
                                  "tag_name":  "edge-dev-portable-x64_151.0.4129.21_v1.0.5"
                              },
+                     "canary":  {
+                                    "version":  "152.0.4154.0",
+                                    "name":  "Microsoft Edge Canary",
+                                    "published_at":  "2026-07-13T21:55:47Z",
+                                    "chromeNext":  "v1.0.5",
+                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_152.0.4154.0_v1.0.5/edge-canary-portable-x64_152.0.4154.0_v1.0.5.zip",
+                                    "tag_name":  "edge-canary-portable-x64_152.0.4154.0_v1.0.5"
+                                },
                      "stable":  {
                                     "version":  "150.0.4078.65",
                                     "name":  "Microsoft Edge Stable",
@@ -33,5 +33,5 @@
                                     "tag_name":  "edge-stable-portable-x64_150.0.4078.65_v1.0.5"
                                 }
                  },
-    "last_updated":  "2026-07-13T20:17:02Z"
+    "last_updated":  "2026-07-13T21:56:20Z"
 }
