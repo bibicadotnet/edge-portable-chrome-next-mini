@@ -568,15 +568,13 @@ Windows Registry Editor Version 5.00
 ; Đặt Google làm công cụ tìm kiếm mặc định (Chỉ hiển thị kết quả Web - Không AI)
 "ManagedSearchEngines"="[{\"is_default\":true,\"keyword\":\"google.com\",\"name\":\"Google\",\"search_url\":\"https://www.google.com/search?q={searchTerms}&udm=14\",\"suggest_url\":\"https://www.google.com/complete/search?output=chrome&q={searchTerms}\"}]"
 
-; Use custom template for DNS over HTTPS - doh.bibica.net - Private DNS Resolution
-; Sử dụng máy chủ tùy chỉnh cho DNS qua HTTPS - doh.bibica.net - Phân giải DNS riêng tư
-"DnsOverHttpsMode"="secure"
-"DnsOverHttpsTemplates"="https://doh.bibica.net/dns-query{?dns}"
-
 ; Use custom template for DNS over HTTPS - Cloudflare Gateway DNS ECS (backup)
 ; Sử dụng máy chủ tùy chỉnh cho DNS qua HTTPS - Cloudflare Gateway DNS ECS (dự phòng)
+"DnsOverHttpsMode"="secure"
+"DnsOverHttpsTemplates"="https://iabucttpma.cloudflare-gateway.com/dns-query{?dns}"
+
 ; "DnsOverHttpsMode"="secure"
-; "DnsOverHttpsTemplates"="https://iabucttpma.cloudflare-gateway.com/dns-query{?dns}"
+; "DnsOverHttpsTemplates"="https://doh.bibica.net/dns-query{?dns}"
 
 ; Block the default New Tab
 ; Chặn New Tab mặc định
