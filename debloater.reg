@@ -579,3 +579,8 @@ Windows Registry Editor Version 5.00
 ; Cài đặt plugin Minimal New Tab
 [HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge_Portable\ExtensionInstallForcelist]
 "1"="khdnagehanbomfdogegmpddmcalmdnbg"
+
+; Allowed to save cookies Google
+; https://learn.microsoft.com/en-us/answers/questions/2400648/how-to-make-edge-stop-signing-me-out-of-google
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge_Portable\CookiesAllowedForUrls]
+"1"="[*.]google.com"
