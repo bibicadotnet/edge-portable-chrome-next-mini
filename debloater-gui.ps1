@@ -49,7 +49,10 @@ $script:Policies = [ordered]@{
         @{Name='BlockThirdPartyCookies';               Type='DWORD';  ApplyValue=1; Description='Block third-party cookies.'},
         @{Name='DefaultIdleDetectionSetting';          Type='DWORD';  ApplyValue=2; Description='Block sites from detecting idle status.'},
         @{Name='ShowPDFDefaultRecommendationsEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default PDF recommendations.'},
-        @{Name='SpotlightExperiencesAndRecommendationsEnabled';Type='DWORD'; ApplyValue=0; Description='Disable Spotlight and custom wallpapers.'}
+        @{Name='SpotlightExperiencesAndRecommendationsEnabled';Type='DWORD'; ApplyValue=0; Description='Disable Spotlight and custom wallpapers.'},
+        @{Name='AdsTransparencyEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable ads transparency feature for tracking prevention.'},
+        @{Name='ConfigureDoNotTrack';                  Type='DWORD';  ApplyValue=1; Description='Send Do Not Track requests to websites.'},
+        @{Name='RelatedWebsiteSetsEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Related Website Sets (prevents related sites seeing your activity).'}
     )
     'Copilot' = @(
         @{Name='ComposeInlineEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable writing assistant Rewrite/Compose.'},
@@ -69,7 +72,8 @@ $script:Policies = [ordered]@{
     'Diagnostic Data' = @(
         @{Name='DiagnosticData';                       Type='DWORD';  ApplyValue=0; Description='Disable required/optional diagnostic data to MS.'},
         @{Name='UrlDiagnosticDataEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable sending page URLs to Microsoft.'},
-        @{Name='Edge3PSerpTelemetryEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable third-party search engine telemetry.'}
+        @{Name='Edge3PSerpTelemetryEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable third-party search engine telemetry.'},
+        @{Name='PersonalizationReportingEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable sending browsing history to personalize recommendations.'}
     )
     'Extensions' = @(
         @{Name='ExtensionManifestV2Availability';      Type='DWORD';  ApplyValue=2; Description='Allow Manifest V2 extensions.'}
@@ -110,14 +114,23 @@ $script:Policies = [ordered]@{
         @{Name='StartupBoostEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable Startup Boost.'},
         @{Name='EfficiencyModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Efficiency Mode.'},
         @{Name='ExtensionsPerformanceDetectorEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable extension performance detector.'},
-        @{Name='PerformanceDetectorEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable tab performance detector.'}
+        @{Name='PerformanceDetectorEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable tab performance detector.'},
+        @{Name='ClearCachedImagesAndFilesOnExit';      Type='DWORD';  ApplyValue=1; Description='Clear cached images and files when Edge exits.'},
+        @{Name='HardwareAccelerationModeEnabled';      Type='DWORD';  ApplyValue=1; Description='Use hardware acceleration when available.'},
+        @{Name='HighEfficiencyModeEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable High Efficiency Mode.'},
+        @{Name='TabServicesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the tab organization service.'}
     )
     'Startup & New Tab' = @(
         @{Name='ShowHomeButton';                       Type='DWORD';  ApplyValue=0; Description='Hide the Home button on toolbar.'},
         @{Name='NewTabPageContentEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Enterprise NTP content.'},
         @{Name='NewTabPageAppLauncherEnabled';         Type='DWORD';  ApplyValue=0; Description='Hide App Launcher on NTP.'},
         @{Name='NewTabPageBingChatEnabled';            Type='DWORD';  ApplyValue=0; Description='Hide Bing Chat on NTP.'},
-        @{Name='NewTabPageQuickLinksEnabled';          Type='DWORD';  ApplyValue=0; Description='Hide Quick Links on NTP.'}
+        @{Name='NewTabPageQuickLinksEnabled';          Type='DWORD';  ApplyValue=0; Description='Hide Quick Links on NTP.'},
+        @{Name='AutoImportAtFirstRun';                 Type='DWORD';  ApplyValue=4; Description='Disable automatic import of browser data and settings at first run.'},
+        @{Name='HideFirstRunExperience';               Type='DWORD';  ApplyValue=1; Description='Hide the First-run experience and splash screen.'},
+        @{Name='ImportBrowserSettings';                Type='DWORD';  ApplyValue=0; Description='Disable importing browser settings from another browser.'},
+        @{Name='ImportOnEachLaunch';                   Type='DWORD';  ApplyValue=0; Description='Disable prompt to import browsing data on each launch.'},
+        @{Name='NewTabPageSearchBox';                  Type='STRING'; ApplyValue='redirect'; Description='Redirect the new tab page search box to use the Address bar.'}
     )
     'Additional' = @(
         @{Name='SplitScreenEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the split screen feature.'},
@@ -180,7 +193,20 @@ $script:Policies = [ordered]@{
         @{Name='ScarewareBlockerProtectionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable Scareware blocker.'},
         @{Name='BingAdsSuppression';                   Type='DWORD';  ApplyValue=1; Description='Suppress ads on Bing.com search.'},
         @{Name='AddressBarWorkSearchResultsEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable work suggestions in address bar.'},
-        @{Name='AddressBarTrendingSuggestEnabled';     Type='DWORD';  ApplyValue=0; Description='Disable Bing trending suggestions.'}
+        @{Name='AddressBarTrendingSuggestEnabled';     Type='DWORD';  ApplyValue=0; Description='Disable Bing trending suggestions.'},
+        @{Name='EdgeCollectionsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the Collections feature.'},
+        @{Name='EnhanceSecurityMode';                  Type='DWORD';  ApplyValue=0; Description='Disable Enhance security mode in Edge.'},
+        @{Name='HubsSidebarEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the Sidebar launcher bar.'},
+        @{Name='StandaloneHubsSidebarEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable the standalone Hubs Sidebar feature.'},
+        @{Name='SearchInSidebarEnabled';               Type='DWORD';  ApplyValue=2; Description='Disable the search in sidebar feature.'},
+        @{Name='PersonalizeTopSitesInCustomizeSidebarEnabled';Type='DWORD'; ApplyValue=0; Description='Disable personalizing top sites in the customize sidebar.'},
+        @{Name='PinBrowserEssentialsToolbarButton';    Type='DWORD';  ApplyValue=0; Description='Unpin the Browser Essentials button from the toolbar.'},
+        @{Name='ScreenCaptureAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable screen capture / screenshot capability.'},
+        @{Name='DisableScreenshots';                   Type='DWORD';  ApplyValue=0; Description='Disable the Screenshot (formerly web capture) feature.'},
+        @{Name='WebCaptureEnabled';                    Type='DWORD';  ApplyValue=0; Description='Disable the Web Capture feature.'},
+        @{Name='ShowAcrobatSubscriptionButton';        Type='DWORD';  ApplyValue=0; Description='Disable the Acrobat premium subscription button in PDF viewer.'},
+        @{Name='SmartScreenDnsRequestsEnabled';        Type='DWORD';  ApplyValue=0; Description='Disable SmartScreen DNS requests (reduces background network calls).'},
+        @{Name='TyposquattingCheckerEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable Edge Website Typo Protection.'}
     )
 }
 
@@ -192,7 +218,7 @@ $script:Specials = [ordered]@{
         Value  = "ntp.msn.com"
         Type   = "String"
         Description = "Blocks default new tab page by adding ntp.msn.com to URLBlocklist."
-        Category = "Start, home page and new tab page"
+        Category = "Startup & New Tab"
     }
     'Install Minimal New Tab extension' = @{
         SubKey = "ExtensionInstallForcelist"
@@ -215,7 +241,7 @@ $script:Specials = [ordered]@{
         Value  = "[{`"is_default`":true,`"keyword`":`"google.com`",`"name`":`"Google`",`"search_url`":`"https://www.google.com/search?q={searchTerms}&udm=14`",`"suggest_url`":`"https://www.google.com/complete/search?output=chrome&q={searchTerms}`"}]"
         Type   = "String"
         Description = "Sets Google Web (no AI) as default Managed Search Engine."
-        Category = "Privacy, search, and services"
+        Category = "Content settings"
     }
 }
 
@@ -263,8 +289,24 @@ $subBannerLabel.Text = "Target registry key: HKCU\SOFTWARE\Policies\Microsoft\$s
 $subBannerLabel.Font = $fontNormal
 $subBannerLabel.ForeColor = [System.Drawing.Color]::LightGray
 $subBannerLabel.Location = New-Object System.Drawing.Point(15, 32)
-$subBannerLabel.Size = New-Object System.Drawing.Size(600, 20)
+$subBannerLabel.Size = New-Object System.Drawing.Size(530, 20)
 $banner.Controls.Add($subBannerLabel)
+
+# Policy search box + button (find which tab a policy lives in by name/description)
+$txtSearch = New-Object System.Windows.Forms.TextBox
+$txtSearch.Location = New-Object System.Drawing.Point(560, 16)
+$txtSearch.Size = New-Object System.Drawing.Size(190, 24)
+$txtSearch.Font = $fontNormal
+$banner.Controls.Add($txtSearch)
+
+$btnSearch = New-Object System.Windows.Forms.Button
+$btnSearch.Text = "Search"
+$btnSearch.Location = New-Object System.Drawing.Point(755, 15)
+$btnSearch.Size = New-Object System.Drawing.Size(65, 25)
+$btnSearch.Font = $fontNormal
+$btnSearch.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$script:ToolTip.SetToolTip($btnSearch, "Search all tabs by policy name or description.")
+$banner.Controls.Add($btnSearch)
 
 # Tab bar for Categories
 # NOTE: A native WinForms TabControl with Multiline=$true stacks overflow rows in
@@ -308,6 +350,8 @@ $colorTabBorder = [System.Drawing.Color]::FromArgb(190, 193, 199)
 $fontTabSelected = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
 
 function Select-Tab ($name) {
+    Clear-SearchHighlight
+    if ($script:ResultsListBox) { $script:ResultsListBox.Visible = $false }
     foreach ($key in $script:TabPanels.Keys) {
         $script:TabPanels[$key].Visible = ($key -eq $name)
     }
@@ -320,6 +364,20 @@ function Select-Tab ($name) {
             $btn.BackColor = $colorTabNormal
             $btn.Font = $fontNormal
         }
+    }
+}
+
+# Tracks the checkbox currently highlighted from a search jump, so the yellow
+# fill can be reverted the moment the user moves on (switches tab / toggles it).
+$script:HighlightedCheckbox = $null
+$script:HighlightedOrigColor = $null
+$script:HighlightHookedControls = @()
+
+function Clear-SearchHighlight {
+    if ($null -ne $script:HighlightedCheckbox) {
+        $script:HighlightedCheckbox.BackColor = $script:HighlightedOrigColor
+        $script:HighlightedCheckbox = $null
+        $script:HighlightedOrigColor = $null
     }
 }
 
@@ -544,6 +602,109 @@ $contentHost.Size = New-Object System.Drawing.Size(815, [Math]::Max(50, ($tabAre
 $script:FirstCategory = @($script:Policies.Keys)[0]
 Select-Tab $script:FirstCategory
 
+# Search results overlay (same bounds as contentHost, shown on top of it during a search)
+$script:ResultsListBox = New-Object System.Windows.Forms.ListBox
+$script:ResultsListBox.Location = $contentHost.Location
+$script:ResultsListBox.Size = $contentHost.Size
+$script:ResultsListBox.Font = $fontNormal
+$script:ResultsListBox.HorizontalScrollbar = $true
+$script:ResultsListBox.Visible = $false
+$form.Controls.Add($script:ResultsListBox)
+$script:SearchResultsMap = @()
+
+# Walk up a control's parent chain to find which tab/category panel owns it
+function Get-CategoryForControl ($ctrl) {
+    $p = $ctrl.Parent
+    while ($null -ne $p) {
+        foreach ($key in $script:TabPanels.Keys) {
+            if ($script:TabPanels[$key] -eq $p) { return $key }
+        }
+        $p = $p.Parent
+    }
+    return "Unknown"
+}
+
+# Jump to a search result: switch tab, scroll it into view, and keep it highlighted
+function Jump-ToSearchResult ($index) {
+    if ($index -lt 0 -or $index -ge $script:SearchResultsMap.Count) { return }
+    $chk = $script:SearchResultsMap[$index]
+    if ($null -eq $chk) { return }
+    $cat = Get-CategoryForControl $chk
+    Select-Tab $cat
+    $script:ResultsListBox.Visible = $false
+
+    $scrollPanel = $chk.Parent
+    while ($null -ne $scrollPanel -and -not ($scrollPanel -is [System.Windows.Forms.Panel] -and $scrollPanel.AutoScroll)) {
+        $scrollPanel = $scrollPanel.Parent
+    }
+    if ($null -ne $scrollPanel) { $scrollPanel.ScrollControlIntoView($chk) }
+    $chk.Focus()
+
+    # Solid, persistent highlight - stays until the user switches tabs, runs a
+    # new search jump, or interacts with this exact checkbox.
+    $script:HighlightedCheckbox = $chk
+    $script:HighlightedOrigColor = $chk.BackColor
+    $chk.BackColor = [System.Drawing.Color]::Yellow
+    if ($script:HighlightHookedControls -notcontains $chk) {
+        $script:HighlightHookedControls += $chk
+        $chk.Add_CheckedChanged({
+            if ($script:HighlightedCheckbox -eq $chk) { Clear-SearchHighlight }
+        }.GetNewClosure())
+    }
+}
+
+# Run the search: scan every policy checkbox's displayed "Name - Description" text
+function Invoke-PolicySearch {
+    $query = $txtSearch.Text.Trim()
+    $script:ResultsListBox.Items.Clear()
+    $script:SearchResultsMap = @()
+
+    if ([string]::IsNullOrWhiteSpace($query)) {
+        $script:ResultsListBox.Visible = $false
+        return
+    }
+
+    $allChecks = @()
+    $allChecks += $script:CheckBoxes
+    $allChecks += $script:SpecialCheckBoxes
+    $allChecks += $script:ChkTrackingEnabled
+    $allChecks += $script:ChkSleepingEnabled
+    $allChecks += $script:ChkDohEnabled
+
+    foreach ($chk in $allChecks) {
+        if ($chk.Text -like "*$query*") {
+            $cat = Get-CategoryForControl $chk
+            [void]$script:ResultsListBox.Items.Add("[$cat]  $($chk.Text)")
+            $script:SearchResultsMap += $chk
+        }
+    }
+
+    if ($script:ResultsListBox.Items.Count -eq 0) {
+        [void]$script:ResultsListBox.Items.Add("No matching policy found for '$query'.")
+        $script:SearchResultsMap += $null
+    }
+
+    $script:ResultsListBox.Visible = $true
+    $script:ResultsListBox.BringToFront()
+}
+
+$btnSearch.Add_Click({ Invoke-PolicySearch })
+$txtSearch.Add_KeyDown({
+    if ($_.KeyCode -eq [System.Windows.Forms.Keys]::Enter) {
+        $_.SuppressKeyPress = $true
+        Invoke-PolicySearch
+    } elseif ($_.KeyCode -eq [System.Windows.Forms.Keys]::Escape) {
+        $txtSearch.Text = ""
+        $script:ResultsListBox.Visible = $false
+    }
+})
+$script:ResultsListBox.Add_DoubleClick({ Jump-ToSearchResult $script:ResultsListBox.SelectedIndex })
+$script:ResultsListBox.Add_KeyDown({
+    if ($_.KeyCode -eq [System.Windows.Forms.Keys]::Enter) {
+        Jump-ToSearchResult $script:ResultsListBox.SelectedIndex
+    }
+})
+
 # Log box
 $logBox = New-Object System.Windows.Forms.TextBox
 $logBox.Location = New-Object System.Drawing.Point(10, 500)
@@ -638,10 +799,11 @@ function Load-RegistryState {
 
     # Load Sleeping Tabs Timeout
     try {
+        $seCur = Get-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsEnabled" -ErrorAction SilentlyContinue
         $stCur = Get-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsTimeout" -ErrorAction SilentlyContinue
-        if ($null -ne $stCur) {
+        if (($null -ne $seCur -and $seCur.SleepingTabsEnabled -eq 1) -or $null -ne $stCur) {
             $script:ChkSleepingEnabled.Checked = $true
-            $stVal = $stCur.SleepingTabsTimeout
+            $stVal = if ($null -ne $stCur) { $stCur.SleepingTabsTimeout } else { 900 }
             switch ($stVal) {
                 30    { $script:CmbSleepingTimeout.SelectedItem = "30 Seconds (30)" }
                 300   { $script:CmbSleepingTimeout.SelectedItem = "5 Minutes (300)" }
@@ -816,14 +978,21 @@ function Apply-Policies {
             $stSel = $script:CmbSleepingTimeout.SelectedItem.ToString()
             $stVal = 900
             if ($stSel -match '\((\d+)\)') { $stVal = [int]$Matches[1] }
+            New-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsEnabled" -Value 1 -PropertyType DWord -Force -ErrorAction Stop | Out-Null
             New-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsTimeout" -Value $stVal -PropertyType DWord -Force -ErrorAction Stop | Out-Null
+            Write-Log "SET SleepingTabsEnabled = 1" "OK"
             Write-Log "SET SleepingTabsTimeout = $stVal" "OK"
-            $applied++
+            $applied += 2
         } catch {
-            Write-Log "FAILED to set SleepingTabsTimeout: $_" "ERR"
+            Write-Log "FAILED to set Sleeping Tabs policies: $_" "ERR"
         }
     } else {
         try {
+            if (Get-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsEnabled" -ErrorAction SilentlyContinue) {
+                Remove-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsEnabled" -Force | Out-Null
+                Write-Log "REMOVED SleepingTabsEnabled" "OK"
+                $cleared++
+            }
             if (Get-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsTimeout" -ErrorAction SilentlyContinue) {
                 Remove-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsTimeout" -Force | Out-Null
                 Write-Log "REMOVED SleepingTabsTimeout" "OK"
