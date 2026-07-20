@@ -40,112 +40,23 @@ $script:EdgePolicyPath = Join-Path $script:BaseRegPath $script:SubKeyName
 
 # ---- Policy definitions mapping debloater.reg -------------------------------
 $script:Policies = [ordered]@{
-    'Edge Features' = @(
-        @{Name='HideFirstRunExperience';               Type='DWORD';  ApplyValue=1; Description='Disable the First-run welcome experience and splash screen.'},
-        @{Name='SearchInSidebarEnabled';               Type='DWORD';  ApplyValue=2; Description='Disable the search in sidebar feature.'},
-        @{Name='HubsSidebarEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the Sidebar launcher bar on the right.'},
-        @{Name='ReadAloudEnabled';                     Type='DWORD';  ApplyValue=0; Description='Disable the Read Aloud feature.'},
-        @{Name='EdgeCollectionsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the Collections panel.'},
-        @{Name='SplitScreenEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the split screen feature.'},
-        @{Name='WebCaptureEnabled';                    Type='DWORD';  ApplyValue=0; Description='Disable the Web Capture / Screenshot feature.'},
-        @{Name='DisableScreenshots';                   Type='DWORD';  ApplyValue=0; Description='Disable screenshot saving capability.'},
-        @{Name='ScreenCaptureAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable screen capturing.'},
-        @{Name='GuidedSwitchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable profile switching prompts for personal/work links.'},
-        @{Name='ShowMicrosoftRewards';                 Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Rewards experience.'},
-        @{Name='AutoImportAtFirstRun';                 Type='DWORD';  ApplyValue=4; Description='Disable auto-import of browser data at first run.'},
-        @{Name='EdgeWorkspacesEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Edge Workspaces.'},
-        @{Name='EdgeWalletCheckoutEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Edge Wallet checkout.'},
-        @{Name='EdgeWalletEtreeEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable E-Tree in Edge Wallet.'},
-        @{Name='WalletDonationEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable donations via Edge Wallet.'},
-        @{Name='AllowGamesMenu';                       Type='DWORD';  ApplyValue=0; Description='Disable Games menu.'},
-        @{Name='EdgeEDropEnabled';                     Type='DWORD';  ApplyValue=0; Description='Disable the file-sharing Drop feature.'},
-        @{Name='InAppSupportEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable contact support options in-app.'},
-        @{Name='QuickViewOfficeFilesEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable quick view Office files on the web.'},
-        @{Name='QRCodeGeneratorEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the QR Code generator.'},
-        @{Name='ShowDownloadsToolbarButton';           Type='DWORD';  ApplyValue=1; Description='Always show the Downloads button on the toolbar.'},
-        @{Name='RemoteDebuggingAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable remote debugging.'},
-        @{Name='VisualSearchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable visual search on images.'},
-        @{Name='UploadFromPhoneEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the upload from mobile feature.'},
-        @{Name='AskBeforeCloseEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable confirmation dialog before closing a window with multiple tabs.'},
-        @{Name='StandaloneHubsSidebarEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable the standalone Hubs Sidebar.'},
-        @{Name='ShowOfficeShortcutInFavoritesBar';     Type='DWORD';  ApplyValue=0; Description='Disable showing Office shortcut in Favorites bar.'},
-        @{Name='PinBrowserEssentialsToolbarButton';    Type='DWORD';  ApplyValue=0; Description='Unpin the Browser Essentials button from the toolbar.'},
-        @{Name='TabServicesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable tab organization service.'},
-        @{Name='ShowAcrobatSubscriptionButton';        Type='DWORD';  ApplyValue=0; Description='Disable Adobe Acrobat subscription button in PDF viewer.'},
-        @{Name='ShowHomeButton';                       Type='DWORD';  ApplyValue=0; Description='Hide the Home button on toolbar.'},
-        @{Name='PinningWizardAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable the Pin to taskbar wizard.'},
-        @{Name='ImportOnEachLaunch';                   Type='DWORD';  ApplyValue=0; Description='Disable prompt to import browsing data on each launch.'},
-        @{Name='ShowPDFDefaultRecommendationsEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default PDF recommendations.'},
-        @{Name='LiveCaptionsAllowed';                  Type='DWORD';  ApplyValue=0; Description='Disable Live captions.'},
-        @{Name='SharedLinksEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable shared links.'}
-    )
-    'Privacy & Telemetry' = @(
-        @{Name='DiagnosticData';                       Type='DWORD';  ApplyValue=0; Description='Disable required/optional diagnostic data to MS.'},
-        @{Name='UrlDiagnosticDataEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable sending page URLs to Microsoft.'},
-        @{Name='PersonalizationReportingEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable personalization reports (browsing history).'},
+    'Accessibility' = @(
         @{Name='AccessibilityImageLabelsEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable image labels description service.'},
-        @{Name='ConfigureShare';                       Type='DWORD';  ApplyValue=0; Description='Disable Share experience with other apps.'},
-        @{Name='DefaultBrowserSettingsCampaignEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default browser prompts campaign.'},
-        @{Name='Edge3PSerpTelemetryEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable third-party search engine telemetry.'},
-        @{Name='LocalBrowserDataShareEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable Windows search indexing Edge local data.'},
-        @{Name='MicrosoftEdgeInsiderPromotionEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable Insider channels promotion.'},
-        @{Name='RelatedWebsiteSetsEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Related Website Sets (privacy isolation).'},
-        @{Name='AdsTransparencyEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable ads transparency settings.'},
-        @{Name='EdgeAssetDeliveryServiceEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable Asset Delivery Service.'},
-        @{Name='UserFeedbackAllowed';                  Type='DWORD';  ApplyValue=0; Description='Disable user feedback feature.'},
-        @{Name='DefaultShareAdditionalOSRegionSetting';Type='DWORD';  ApplyValue=2; Description='Never share additional OS region.'},
-        @{Name='EdgeShoppingAssistantEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable Edge Shopping Assistant.'},
+        @{Name='LiveCaptionsAllowed';                  Type='DWORD';  ApplyValue=0; Description='Disable Live captions.'},
+        @{Name='ReadAloudEnabled';                     Type='DWORD';  ApplyValue=0; Description='Disable the Read Aloud feature.'}
+    )
+    'Content settings' = @(
         @{Name='BlockThirdPartyCookies';               Type='DWORD';  ApplyValue=1; Description='Block third-party cookies.'},
-        @{Name='ConfigureDoNotTrack';                  Type='DWORD';  ApplyValue=1; Description='Send Do Not Track requests.'},
-        @{Name='SmartScreenDnsRequestsEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable SmartScreen DNS requests.'},
-        @{Name='BrowserNetworkTimeQueriesEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable network time queries.'},
-        @{Name='ClearCachedImagesAndFilesOnExit';      Type='DWORD';  ApplyValue=1; Description='Clear cached images and files on exit.'},
         @{Name='DefaultIdleDetectionSetting';          Type='DWORD';  ApplyValue=2; Description='Block sites from detecting idle status.'},
-        @{Name='EdgeAdminCenterEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable Edge Admin Center.'},
-        @{Name='WebRtcLocalhostIpHandling';            Type='STRING'; ApplyValue='disable_non_proxied_udp'; Description='Disable WebRTC non-proxied UDP (stops IP leak).'},
-        @{Name='PersonalizeTopSitesInCustomizeSidebarEnabled';Type='DWORD'; ApplyValue=0; Description='Disable personalizing top sites in customize sidebar.'},
-        @{Name='RoamingProfileSupportEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable roaming profiles support.'},
-        @{Name='ShowRecommendationsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable feature recommendations notifications.'},
-        @{Name='TextPredictionEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable text prediction.'},
-        @{Name='TyposquattingCheckerEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable typosquatting (website spelling mistake) checker.'},
-        @{Name='PromotionalTabsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable promotional tabs.'},
-        @{Name='EnhanceSecurityMode';                  Type='DWORD';  ApplyValue=0; Description='Disable Enhance Security Mode.'},
-        @{Name='SpeechRecognitionEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Speech Recognition.'}
+        @{Name='ShowPDFDefaultRecommendationsEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default PDF recommendations.'},
+        @{Name='SpotlightExperiencesAndRecommendationsEnabled';Type='DWORD'; ApplyValue=0; Description='Disable Spotlight and custom wallpapers.'}
     )
-    'Autofill & Passwords' = @(
-        @{Name='PasswordGeneratorEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Password Generator.'},
-        @{Name='PasswordManagerEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable built-in password manager.'},
-        @{Name='PasswordMonitorAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable compromised password monitor.'},
-        @{Name='PasswordProtectionWarningTrigger';     Type='DWORD';  ApplyValue=0; Description='Disable password protection warnings.'},
-        @{Name='AutofillAddressEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable address autofill.'},
-        @{Name='AutofillCreditCardEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable credit card autofill.'},
-        @{Name='AutofillMembershipsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable memberships autofill.'},
-        @{Name='PaymentMethodQueryEnabled';            Type='DWORD';  ApplyValue=0; Description='Block sites from checking saved payments.'},
-        @{Name='PasswordDismissCompromisedAlertEnabled';Type='DWORD';  ApplyValue=0; Description='Disable dismissing password warnings.'},
-        @{Name='EdgeAutofillMlEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Machine Learning for autofill forms.'}
-    )
-    'Search & Suggestions' = @(
-        @{Name='NewTabPageSearchBox';                  Type='STRING'; ApplyValue='redirect'; Description='Redirect NTP search to Address bar.'},
-        @{Name='AlternateErrorPagesEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable alternate HTTP error suggest pages.'},
-        @{Name='ResolveNavigationErrorsUseWebService'; Type='DWORD';  ApplyValue=0; Description='Disable web service connection probing.'},
-        @{Name='SearchForImageEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable context menu Image Search.'},
-        @{Name='SearchFiltersEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable suggestions search filters.'},
-        @{Name='SearchbarAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable search bar desktop widget.'},
-        @{Name='SearchbarIsEnabledOnStartup';          Type='DWORD';  ApplyValue=0; Description='Disable search widget on startup.'},
-        @{Name='WebWidgetAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable Web Widget entirely.'},
-        @{Name='AddressBarWorkSearchResultsEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable work suggestions in address bar.'},
-        @{Name='AddressBarTrendingSuggestEnabled';     Type='DWORD';  ApplyValue=0; Description='Disable Bing trending suggestions.'}
-    )
-    'AI & Copilot' = @(
+    'Copilot' = @(
         @{Name='ComposeInlineEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable writing assistant Rewrite/Compose.'},
         @{Name='AllowBrowsingWithCopilot';             Type='DWORD';  ApplyValue=0; Description='Disable invoking Copilot for page queries.'},
-        @{Name='BuiltInAIAPIsEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable built-in client AI APIs for web pages.'},
         @{Name='Microsoft365CopilotChatIconEnabled';   Type='DWORD';  ApplyValue=0; Description='Hide the M365 Copilot Chat icon.'},
         @{Name='CopilotPageContextEnabled';            Type='DWORD';  ApplyValue=0; Description='Block Copilot side pane accessing page content.'},
         @{Name='EdgeEntraCopilotPageContext';          Type='DWORD';  ApplyValue=0; Description='Block Entra Copilot accessing page context.'},
-        @{Name='EdgeHistoryAISearchEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable AI search in history.'},
-        @{Name='AIGenThemesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable generating themes using DALL-E.'},
-        @{Name='GenAILocalFoundationalModelSettings';  Type='DWORD';  ApplyValue=1; Description='Do not download local foundational GenAI model.'},
         @{Name='CopilotMode';                          Type='DWORD';  ApplyValue=0; Description='Disable Copilot mode entirely.'},
         @{Name='CopilotMultitabEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable Copilot multitab context features.'},
         @{Name='CopilotNewTabPageEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Copilot features on NTP.'},
@@ -155,45 +66,121 @@ $script:Policies = [ordered]@{
         @{Name='ShareBrowsingHistoryWithCopilotSearchAllowed';Type='DWORD'; ApplyValue=0; Description='Do not share browsing history with Copilot.'},
         @{Name='CopilotAddressBarSuggestionsEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable Copilot address bar suggestions.'}
     )
-    'Performance & System' = @(
-        @{Name='BackgroundModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Do not run background apps when Edge closes.'},
-        @{Name='StartupBoostEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable Startup Boost.'},
-        @{Name='NetworkPredictionOptions';             Type='DWORD';  ApplyValue=2; Description='Never predict network actions/prefetch.'},
-        @{Name='HardwareAccelerationModeEnabled';      Type='DWORD';  ApplyValue=1; Description='Force hardware acceleration mode (GPU).'},
-        @{Name='SleepingTabsEnabled';                  Type='DWORD';  ApplyValue=1; Description='Enable putting idle tabs to sleep.'},
-        @{Name='EfficiencyModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Efficiency Mode.'},
-        @{Name='HighEfficiencyModeEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable High Efficiency Mode.'},
-        @{Name='ExtensionsPerformanceDetectorEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable extension performance detector.'},
-        @{Name='PerformanceDetectorEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable tab performance detector.'},
-        @{Name='NewTabPageContentEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Enterprise NTP content.'},
-        @{Name='NewTabPageAppLauncherEnabled';         Type='DWORD';  ApplyValue=0; Description='Hide App Launcher on NTP.'},
-        @{Name='NewTabPageBingChatEnabled';            Type='DWORD';  ApplyValue=0; Description='Hide Bing Chat on NTP.'},
-        @{Name='NewTabPageQuickLinksEnabled';          Type='DWORD';  ApplyValue=0; Description='Hide Quick Links on NTP.'},
-        @{Name='SpotlightExperiencesAndRecommendationsEnabled';Type='DWORD'; ApplyValue=0; Description='Disable Spotlight and custom wallpapers.'},
-        @{Name='ExtensionManifestV2Availability';      Type='DWORD';  ApplyValue=2; Description='Allow Manifest V2 extensions.'},
-        @{Name='BuiltInDnsClientEnabled';              Type='DWORD';  ApplyValue=0; Description='Disable the built-in DNS client.'},
+    'Diagnostic Data' = @(
+        @{Name='DiagnosticData';                       Type='DWORD';  ApplyValue=0; Description='Disable required/optional diagnostic data to MS.'},
+        @{Name='UrlDiagnosticDataEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable sending page URLs to Microsoft.'},
+        @{Name='Edge3PSerpTelemetryEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable third-party search engine telemetry.'}
+    )
+    'Extensions' = @(
+        @{Name='ExtensionManifestV2Availability';      Type='DWORD';  ApplyValue=2; Description='Allow Manifest V2 extensions.'}
+    )
+    'Generative AI' = @(
+        @{Name='BuiltInAIAPIsEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable built-in client AI APIs for web pages.'},
+        @{Name='EdgeHistoryAISearchEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable AI search in history.'},
+        @{Name='AIGenThemesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable generating themes using DALL-E.'},
+        @{Name='GenAILocalFoundationalModelSettings';  Type='DWORD';  ApplyValue=1; Description='Do not download local foundational GenAI model.'}
+    )
+    'Identity and sign-in' = @(
+        @{Name='GuidedSwitchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable profile switching prompts for personal/work links.'},
         @{Name='ProactiveAuthWorkflowEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable proactive auth with MSN/Bing/Copilot.'},
-        @{Name='ApplicationGuardFavoritesSyncEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable sync of favorites to App Guard.'},
-        @{Name='ApplicationGuardTrafficIdentificationEnabled';Type='DWORD'; ApplyValue=0; Description='Disable outbound App Guard traffic headers.'},
         @{Name='SeamlessWebToBrowserSignInEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable seamless web-to-browser sign-in.'},
+        @{Name='ImplicitSignInEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Implicit Sign-In.'},
         @{Name='AADWebSiteSSOUsingThisProfileEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable AAD Web site SSO.'},
         @{Name='AADWebSSOAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable AAD Web SSO.'},
         @{Name='MSAWebSiteSSOUsingThisProfileAllowed'; Type='DWORD';  ApplyValue=0; Description='Disable MSA Web site SSO.'},
-        @{Name='ImplicitSignInEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Implicit Sign-In.'},
-        @{Name='ConfigureOnlineTextToSpeech';          Type='DWORD';  ApplyValue=0; Description='Disable Online Text-to-Speech voices.'},
-        @{Name='ConfigureOnPremisesAccountAutoSignIn'; Type='DWORD';  ApplyValue=0; Description='Disable Azure AD auto sign-in.'},
-        @{Name='MAMEnabled';                           Type='DWORD';  ApplyValue=0; Description='Disable Intune MAM policy retrieval.'},
-        @{Name='EdgeManagementEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Edge management service.'},
-        @{Name='ApplicationBoundEncryptionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable app-bound local data encryption.'},
-        @{Name='ImportBrowserSettings';                Type='DWORD';  ApplyValue=0; Description='Disable importing settings from other browsers.'},
+        @{Name='ConfigureOnPremisesAccountAutoSignIn'; Type='DWORD';  ApplyValue=0; Description='Disable Azure AD auto sign-in.'}
+    )
+    'Microsoft Office' = @(
+        @{Name='QuickViewOfficeFilesEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable quick view Office files on the web.'},
+        @{Name='ShowOfficeShortcutInFavoritesBar';     Type='DWORD';  ApplyValue=0; Description='Disable showing Office shortcut in Favorites bar.'}
+    )
+    'Network settings' = @(
+        @{Name='NetworkPredictionOptions';             Type='DWORD';  ApplyValue=2; Description='Never predict network actions/prefetch.'},
+        @{Name='BuiltInDnsClientEnabled';              Type='DWORD';  ApplyValue=0; Description='Disable the built-in DNS client.'}
+    )
+    'Password manager and protection' = @(
+        @{Name='PasswordGeneratorEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Password Generator.'},
+        @{Name='PasswordManagerEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable built-in password manager.'},
+        @{Name='PasswordMonitorAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable compromised password monitor.'},
+        @{Name='PasswordProtectionWarningTrigger';     Type='DWORD';  ApplyValue=0; Description='Disable password protection warnings.'},
+        @{Name='PasswordDismissCompromisedAlertEnabled';Type='DWORD';  ApplyValue=0; Description='Disable dismissing password warnings.'}
+    )
+    'Performance' = @(
+        @{Name='BackgroundModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Do not run background apps when Edge closes.'},
+        @{Name='StartupBoostEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable Startup Boost.'},
+        @{Name='EfficiencyModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Efficiency Mode.'},
+        @{Name='ExtensionsPerformanceDetectorEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable extension performance detector.'},
+        @{Name='PerformanceDetectorEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable tab performance detector.'}
+    )
+    'Startup & New Tab' = @(
+        @{Name='ShowHomeButton';                       Type='DWORD';  ApplyValue=0; Description='Hide the Home button on toolbar.'},
+        @{Name='NewTabPageContentEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Enterprise NTP content.'},
+        @{Name='NewTabPageAppLauncherEnabled';         Type='DWORD';  ApplyValue=0; Description='Hide App Launcher on NTP.'},
+        @{Name='NewTabPageBingChatEnabled';            Type='DWORD';  ApplyValue=0; Description='Hide Bing Chat on NTP.'},
+        @{Name='NewTabPageQuickLinksEnabled';          Type='DWORD';  ApplyValue=0; Description='Hide Quick Links on NTP.'}
+    )
+    'Additional' = @(
+        @{Name='SplitScreenEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the split screen feature.'},
+        @{Name='ShowMicrosoftRewards';                 Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Rewards experience.'},
+        @{Name='EdgeWalletCheckoutEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Edge Wallet checkout.'},
+        @{Name='EdgeWalletEtreeEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable E-Tree in Edge Wallet.'},
+        @{Name='WalletDonationEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable donations via Edge Wallet.'},
+        @{Name='AllowGamesMenu';                       Type='DWORD';  ApplyValue=0; Description='Disable Games menu.'},
+        @{Name='EdgeEDropEnabled';                     Type='DWORD';  ApplyValue=0; Description='Disable the file-sharing Drop feature.'},
+        @{Name='InAppSupportEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable contact support options in-app.'},
+        @{Name='QRCodeGeneratorEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the QR Code generator.'},
+        @{Name='ShowDownloadsToolbarButton';           Type='DWORD';  ApplyValue=1; Description='Always show the Downloads button on the toolbar.'},
+        @{Name='RemoteDebuggingAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable remote debugging.'},
+        @{Name='VisualSearchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable visual search on images.'},
+        @{Name='UploadFromPhoneEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the upload from mobile feature.'},
+        @{Name='AskBeforeCloseEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable confirmation dialog before closing a window with multiple tabs.'},
+        @{Name='PinningWizardAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable the Pin to taskbar wizard.'},
+        @{Name='SharedLinksEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable shared links.'},
+        @{Name='ConfigureShare';                       Type='DWORD';  ApplyValue=0; Description='Disable Share experience with other apps.'},
+        @{Name='DefaultBrowserSettingsCampaignEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default browser prompts campaign.'},
+        @{Name='LocalBrowserDataShareEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable Windows search indexing Edge local data.'},
+        @{Name='MicrosoftEdgeInsiderPromotionEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable Insider channels promotion.'},
+        @{Name='EdgeAssetDeliveryServiceEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable Asset Delivery Service.'},
+        @{Name='UserFeedbackAllowed';                  Type='DWORD';  ApplyValue=0; Description='Disable user feedback feature.'},
+        @{Name='DefaultShareAdditionalOSRegionSetting';Type='DWORD';  ApplyValue=2; Description='Never share additional OS region.'},
+        @{Name='EdgeShoppingAssistantEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable Edge Shopping Assistant.'},
+        @{Name='BrowserNetworkTimeQueriesEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable network time queries.'},
+        @{Name='EdgeAdminCenterEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable Edge Admin Center.'},
+        @{Name='WebRtcLocalhostIpHandling';            Type='STRING'; ApplyValue='disable_non_proxied_udp'; Description='Disable WebRTC non-proxied UDP (stops IP leak).'},
+        @{Name='RoamingProfileSupportEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable roaming profiles support.'},
+        @{Name='ShowRecommendationsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable feature recommendations notifications.'},
+        @{Name='TextPredictionEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable text prediction.'},
+        @{Name='PromotionalTabsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable promotional tabs.'},
+        @{Name='SpeechRecognitionEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Speech Recognition.'},
+        @{Name='AutofillAddressEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable address autofill.'},
+        @{Name='AutofillCreditCardEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable credit card autofill.'},
+        @{Name='AutofillMembershipsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable memberships autofill.'},
+        @{Name='PaymentMethodQueryEnabled';            Type='DWORD';  ApplyValue=0; Description='Block sites from checking saved payments.'},
+        @{Name='EdgeAutofillMlEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Machine Learning for autofill forms.'},
+        @{Name='AlternateErrorPagesEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable alternate HTTP error suggest pages.'},
+        @{Name='ResolveNavigationErrorsUseWebService'; Type='DWORD';  ApplyValue=0; Description='Disable web service connection probing.'},
+        @{Name='SearchForImageEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable context menu Image Search.'},
+        @{Name='SearchFiltersEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable suggestions search filters.'},
+        @{Name='SearchbarAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable search bar desktop widget.'},
+        @{Name='SearchbarIsEnabledOnStartup';          Type='DWORD';  ApplyValue=0; Description='Disable search widget on startup.'},
+        @{Name='WebWidgetAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable Web Widget entirely.'},
+        @{Name='EdgeWorkspacesEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Edge Workspaces.'},
+        @{Name='ApplicationGuardFavoritesSyncEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable sync of favorites to App Guard.'},
+        @{Name='ApplicationGuardTrafficIdentificationEnabled';Type='DWORD'; ApplyValue=0; Description='Disable outbound App Guard traffic headers.'},
         @{Name='WhatsNewPageForEntraProfilesEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable "What`s New" page for Entra profiles.'},
         @{Name='QuickSearchShowMiniMenu';              Type='DWORD';  ApplyValue=0; Description='Disable quick search mini menu.'},
         @{Name='MicrosoftEditorSynonymsEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Editor synonyms.'},
         @{Name='MicrosoftEditorProofingEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Editor proofing.'},
         @{Name='SpellcheckEnabled';                    Type='DWORD';  ApplyValue=0; Description='Disable spellcheck.'},
+        @{Name='DefaultBrowserSettingEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable default browser check on startup.'},
+        @{Name='EdgeManagementEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Edge management service.'},
+        @{Name='ApplicationBoundEncryptionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable app-bound local data encryption.'},
+        @{Name='ConfigureOnlineTextToSpeech';          Type='DWORD';  ApplyValue=0; Description='Disable Online Text-to-Speech voices.'},
+        @{Name='MAMEnabled';                           Type='DWORD';  ApplyValue=0; Description='Disable Intune MAM policy retrieval.'},
         @{Name='ScarewareBlockerProtectionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable Scareware blocker.'},
         @{Name='BingAdsSuppression';                   Type='DWORD';  ApplyValue=1; Description='Suppress ads on Bing.com search.'},
-        @{Name='DefaultBrowserSettingEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable default browser check on startup.'}
+        @{Name='AddressBarWorkSearchResultsEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable work suggestions in address bar.'},
+        @{Name='AddressBarTrendingSuggestEnabled';     Type='DWORD';  ApplyValue=0; Description='Disable Bing trending suggestions.'}
     )
 }
 
@@ -205,6 +192,7 @@ $script:Specials = [ordered]@{
         Value  = "ntp.msn.com"
         Type   = "String"
         Description = "Blocks default new tab page by adding ntp.msn.com to URLBlocklist."
+        Category = "Start, home page and new tab page"
     }
     'Install Minimal New Tab extension' = @{
         SubKey = "ExtensionInstallForcelist"
@@ -212,6 +200,7 @@ $script:Specials = [ordered]@{
         Value  = "khdnagehanbomfdogegmpddmcalmdnbg"
         Type   = "String"
         Description = "Force installs Minimal New Tab plugin (khdnagehanbomfdogegmpddmcalmdnbg)."
+        Category = "Extensions"
     }
     'Allow Google Cookies' = @{
         SubKey = "CookiesAllowedForUrls"
@@ -219,12 +208,14 @@ $script:Specials = [ordered]@{
         Value  = "[*.]google.com"
         Type   = "String"
         Description = "Allows storing Google cookies to prevent getting signed out."
+        Category = "Content settings"
     }
     'Google Web Only (ManagedSearchEngines)' = @{
         Name   = "ManagedSearchEngines"
         Value  = "[{`"is_default`":true,`"keyword`":`"google.com`",`"name`":`"Google`",`"search_url`":`"https://www.google.com/search?q={searchTerms}&udm=14`",`"suggest_url`":`"https://www.google.com/complete/search?output=chrome&q={searchTerms}`"}]"
         Type   = "String"
         Description = "Sets Google Web (no AI) as default Managed Search Engine."
+        Category = "Privacy, search, and services"
     }
 }
 
@@ -244,6 +235,13 @@ $fontNormal = New-Object System.Drawing.Font("Segoe UI", 9)
 $fontCode = New-Object System.Drawing.Font("Consolas", 8.5)
 
 $form.BackColor = $bgColor
+
+# Shared ToolTip component (hover hints on buttons)
+$script:ToolTip = New-Object System.Windows.Forms.ToolTip
+$script:ToolTip.AutoPopDelay = 8000
+$script:ToolTip.InitialDelay = 300
+$script:ToolTip.ReshowDelay = 100
+$script:ToolTip.ShowAlways = $true
 
 # Top Banner
 $banner = New-Object System.Windows.Forms.Panel
@@ -268,26 +266,99 @@ $subBannerLabel.Location = New-Object System.Drawing.Point(15, 32)
 $subBannerLabel.Size = New-Object System.Drawing.Size(600, 20)
 $banner.Controls.Add($subBannerLabel)
 
-# Tab Control for Categories
-$tabControl = New-Object System.Windows.Forms.TabControl
-$tabControl.Location = New-Object System.Drawing.Point(10, 70)
-$tabControl.Size = New-Object System.Drawing.Size(815, 420)
-$tabControl.Font = $fontNormal
-$form.Controls.Add($tabControl)
+# Tab bar for Categories
+# NOTE: A native WinForms TabControl with Multiline=$true stacks overflow rows in
+# reverse order (first-added tabs land on the row closest to the content, later
+# tabs get pushed to rows above), which looks like the tabs are shuffled. There is
+# no supported property to change that. Instead we build our own simple tab bar
+# using a FlowLayoutPanel of Buttons (wraps top-to-bottom in insertion order, like
+# normal text wrapping) plus a single content host Panel that shows/hides one
+# category panel at a time.
+# Bottom Y coordinate the tab bar + content area must together fill (log box starts at y=500)
+$tabAreaBottom = 490
+
+$tabBar = New-Object System.Windows.Forms.FlowLayoutPanel
+$tabBar.Location = New-Object System.Drawing.Point(10, 70)
+$tabBar.Width = 815
+$tabBar.FlowDirection = [System.Windows.Forms.FlowDirection]::LeftToRight
+$tabBar.WrapContents = $true
+$tabBar.AutoScroll = $false
+$tabBar.BackColor = $bgColor
+# Let the panel grow downward to fit however many rows of tabs are actually needed
+# (fixing a fixed height here is what silently clipped/hid overflow rows before).
+$tabBar.AutoSize = $true
+$tabBar.AutoSizeMode = [System.Windows.Forms.AutoSizeMode]::GrowAndShrink
+$tabBar.MaximumSize = New-Object System.Drawing.Size(815, 0)   # 0 = unbounded height
+$form.Controls.Add($tabBar)
+
+# Content host is positioned/sized AFTER all tab buttons are added below, once we
+# know how tall the tab bar actually ended up (see after the button-creation loops).
+$contentHost = New-Object System.Windows.Forms.Panel
+$contentHost.Location = New-Object System.Drawing.Point(10, 140)
+$contentHost.Size = New-Object System.Drawing.Size(815, 350)
+$contentHost.BackColor = $panelBgColor
+$contentHost.BorderStyle = [System.Windows.Forms.BorderStyle]::FixedSingle
+$form.Controls.Add($contentHost)
+
+$script:TabPanels = @{}
+$script:TabButtons = @{}
+$colorTabNormal = [System.Drawing.Color]::FromArgb(228, 230, 235)
+$colorTabSelected = [System.Drawing.Color]::White
+$colorTabBorder = [System.Drawing.Color]::FromArgb(190, 193, 199)
+$fontTabSelected = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
+
+function Select-Tab ($name) {
+    foreach ($key in $script:TabPanels.Keys) {
+        $script:TabPanels[$key].Visible = ($key -eq $name)
+    }
+    foreach ($key in $script:TabButtons.Keys) {
+        $btn = $script:TabButtons[$key]
+        if ($key -eq $name) {
+            $btn.BackColor = $colorTabSelected
+            $btn.Font = $fontTabSelected
+        } else {
+            $btn.BackColor = $colorTabNormal
+            $btn.Font = $fontNormal
+        }
+    }
+}
+
+function New-CategoryButton ($category) {
+    $btn = New-Object System.Windows.Forms.Button
+    $btn.Text = $category
+    $btn.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+    $btn.FlatAppearance.BorderColor = $colorTabBorder
+    $btn.BackColor = $colorTabNormal
+    $btn.Font = $fontNormal
+    $btn.AutoSize = $true
+    $btn.AutoSizeMode = [System.Windows.Forms.AutoSizeMode]::GrowAndShrink
+    $btn.Padding = New-Object System.Windows.Forms.Padding(8, 2, 8, 2)
+    $btn.Margin = New-Object System.Windows.Forms.Padding(0, 0, 4, 4)
+    $btn.Height = 26
+    $btn.Cursor = [System.Windows.Forms.Cursors]::Hand
+    $btn.Add_Click({ Select-Tab $category }.GetNewClosure())
+    if ($script:Policies.Contains($category)) {
+        $count = $script:Policies[$category].Count
+        $script:ToolTip.SetToolTip($btn, "$category`n$count setting(s) in this tab.")
+    } else {
+        $script:ToolTip.SetToolTip($btn, $category)
+    }
+    return $btn
+}
 
 $script:CheckBoxes = @()
+$script:SpecialCheckBoxes = @()
 
 # Load checkboxes dynamically based on categories
 foreach ($category in $script:Policies.Keys) {
-    $tabPage = New-Object System.Windows.Forms.TabPage
-    $tabPage.Text = $category
-    $tabPage.BackColor = $panelBgColor
-    
-    # Scrollable panel within tab
+    # Scrollable panel that acts as the "page" for this category
     $panel = New-Object System.Windows.Forms.Panel
     $panel.Dock = [System.Windows.Forms.DockStyle]::Fill
     $panel.AutoScroll = $true
-    $tabPage.Controls.Add($panel)
+    $panel.BackColor = $panelBgColor
+    $panel.Visible = $false
+    $contentHost.Controls.Add($panel)
+    $script:TabPanels[$category] = $panel
     
     $yPos = 15
     foreach ($policy in $script:Policies[$category]) {
@@ -301,39 +372,42 @@ foreach ($category in $script:Policies.Keys) {
         $yPos += 28
     }
     
-    $tabControl.TabPages.Add($tabPage)
+    # Render special policies that belong to this category
+    foreach ($key in $script:Specials.Keys) {
+        $spec = $script:Specials[$key]
+        if ($spec.Category -eq $category) {
+            $chk = New-Object System.Windows.Forms.CheckBox
+            $policyName = if ($spec.SubKey) { $spec.SubKey } else { $spec.Name }
+            $chk.Text = "$policyName - $($spec.Description)"
+            $chk.Size = New-Object System.Drawing.Size(760, 24)
+            $chk.Location = New-Object System.Drawing.Point(15, $yPos)
+            $chk.Tag = $key # store key name
+            $panel.Controls.Add($chk)
+            $script:SpecialCheckBoxes += $chk
+            $yPos += 28
+        }
+    }
+    
+    $btn = New-CategoryButton $category
+    $tabBar.Controls.Add($btn)
+    $script:TabButtons[$category] = $btn
 }
 
-# Special tab for overrides/extra policies
-$tabPageSpecials = New-Object System.Windows.Forms.TabPage
-$tabPageSpecials.Text = "Advanced Overrides"
-$tabPageSpecials.BackColor = $panelBgColor
+# Special "page" for overrides/extra policies
+$specialsCategoryName = "Advanced Overrides"
 
 $panelSpecials = New-Object System.Windows.Forms.Panel
 $panelSpecials.Dock = [System.Windows.Forms.DockStyle]::Fill
 $panelSpecials.AutoScroll = $true
-$tabPageSpecials.Controls.Add($panelSpecials)
-
-$script:SpecialCheckBoxes = @()
-$yPos = 15
-foreach ($key in $script:Specials.Keys) {
-    $spec = $script:Specials[$key]
-    $chk = New-Object System.Windows.Forms.CheckBox
-    $policyName = if ($spec.SubKey) { $spec.SubKey } else { $spec.Name }
-    $chk.Text = "$policyName - $($spec.Description)"
-    $chk.Size = New-Object System.Drawing.Size(760, 24)
-    $chk.Location = New-Object System.Drawing.Point(15, $yPos)
-    $chk.Tag = $key # store key name
-    $panelSpecials.Controls.Add($chk)
-    $script:SpecialCheckBoxes += $chk
-    $yPos += 28
-}
+$panelSpecials.BackColor = $panelBgColor
+$panelSpecials.Visible = $false
+$contentHost.Controls.Add($panelSpecials)
 
 # GroupBox for Custom Configurations
 $groupCustom = New-Object System.Windows.Forms.GroupBox
 $groupCustom.Text = "Policy Customizations (Tracking Prevention, Sleeping Tabs & DoH)"
 $groupCustom.Size = New-Object System.Drawing.Size(765, 200)
-$groupCustom.Location = New-Object System.Drawing.Point(15, ($yPos + 10))
+$groupCustom.Location = New-Object System.Drawing.Point(15, 15)
 $panelSpecials.Controls.Add($groupCustom)
 
 # 1. Tracking Prevention
@@ -449,7 +523,26 @@ $script:TxtDohCustom.Text = $script:DohTemplates["Cloudflare Gateway ECS"]
 $script:TxtDohCustom.ReadOnly = $true
 $script:TxtDohCustom.BackColor = [System.Drawing.Color]::LightGray
 
-$tabControl.TabPages.Add($tabPageSpecials)
+$script:TabPanels[$specialsCategoryName] = $panelSpecials
+$btnSpecials = New-CategoryButton $specialsCategoryName
+$script:ToolTip.SetToolTip($btnSpecials, "Advanced Overrides`nTracking Prevention, Sleeping Tabs, DoH & search engine customizations.")
+$tabBar.Controls.Add($btnSpecials)
+$script:TabButtons[$specialsCategoryName] = $btnSpecials
+
+# Now that every tab button has been added, the FlowLayoutPanel has auto-sized to
+# its real, final height (however many rows it actually needed). Reposition/resize
+# the content host to sit right under it, using up the remaining space down to
+# $tabAreaBottom, so no tab row and no content ever gets clipped.
+$tabBar.PerformLayout()
+$actualTabBarHeight = $tabBar.PreferredSize.Height
+$tabBar.Height = $actualTabBarHeight
+$tabContentTop = $tabBar.Bottom + 4
+$contentHost.Location = New-Object System.Drawing.Point(10, $tabContentTop)
+$contentHost.Size = New-Object System.Drawing.Size(815, [Math]::Max(50, ($tabAreaBottom - $tabContentTop)))
+
+# Show the first category by default (matches previous default of first-added TabPage)
+$script:FirstCategory = @($script:Policies.Keys)[0]
+Select-Tab $script:FirstCategory
 
 # Log box
 $logBox = New-Object System.Windows.Forms.TextBox
@@ -849,6 +942,7 @@ $btnLoad.Size = New-Object System.Drawing.Size(120, 32)
 $btnLoad.Location = New-Object System.Drawing.Point(0, 5)
 $btnLoad.Font = $fontNormal
 $btnLoad.Add_Click({ Load-RegistryState })
+$script:ToolTip.SetToolTip($btnLoad, "Reload the current registry state and refresh all checkboxes.")
 $bottomPanel.Controls.Add($btnLoad)
 
 # Select All Button
@@ -857,6 +951,7 @@ $btnSelectAll.Text = "Select All"
 $btnSelectAll.Size = New-Object System.Drawing.Size(100, 32)
 $btnSelectAll.Location = New-Object System.Drawing.Point(130, 5)
 $btnSelectAll.Font = $fontNormal
+$script:ToolTip.SetToolTip($btnSelectAll, "Check every setting in all tabs.")
 $btnSelectAll.Add_Click({
     foreach ($chk in $script:CheckBoxes) { $chk.Checked = $true }
     foreach ($chk in $script:SpecialCheckBoxes) { $chk.Checked = $true }
@@ -873,6 +968,7 @@ $btnDeselectAll.Text = "Deselect All"
 $btnDeselectAll.Size = New-Object System.Drawing.Size(100, 32)
 $btnDeselectAll.Location = New-Object System.Drawing.Point(240, 5)
 $btnDeselectAll.Font = $fontNormal
+$script:ToolTip.SetToolTip($btnDeselectAll, "Uncheck every setting in all tabs.")
 $btnDeselectAll.Add_Click({
     foreach ($chk in $script:CheckBoxes) { $chk.Checked = $false }
     foreach ($chk in $script:SpecialCheckBoxes) { $chk.Checked = $false }
@@ -892,6 +988,7 @@ $btnApply.BackColor = [System.Drawing.Color]::FromArgb(34, 197, 94)
 $btnApply.ForeColor = [System.Drawing.Color]::White
 $btnApply.Font = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
 $btnApply.Add_Click({ Apply-Policies })
+$script:ToolTip.SetToolTip($btnApply, "Write the checked settings to the registry ($script:EdgePolicyPath).")
 $bottomPanel.Controls.Add($btnApply)
 
 # Restore Button
@@ -903,6 +1000,7 @@ $btnRestore.BackColor = [System.Drawing.Color]::FromArgb(239, 68, 68)
 $btnRestore.ForeColor = [System.Drawing.Color]::White
 $btnRestore.Font = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
 $btnRestore.Add_Click({ Full-Restore })
+$script:ToolTip.SetToolTip($btnRestore, "Remove all applied policies and restore Edge to stock/default behavior.")
 $bottomPanel.Controls.Add($btnRestore)
 
 # Close Button
@@ -912,6 +1010,7 @@ $btnClose.Size = New-Object System.Drawing.Size(100, 32)
 $btnClose.Location = New-Object System.Drawing.Point(715, 5)
 $btnClose.Font = $fontNormal
 $btnClose.Add_Click({ $form.Close() })
+$script:ToolTip.SetToolTip($btnClose, "Close the application without applying further changes.")
 $bottomPanel.Controls.Add($btnClose)
 
 # Startup Initialization
