@@ -443,6 +443,25 @@ function Clear-SearchHighlight {
     }
 }
 
+# Short, human-readable description of what each tab actually covers.
+# Used for tab tooltips instead of a meaningless policy count.
+$script:CategoryDescriptions = @{
+    'Profiles'                        = "Sign-in, SSO, and profile-switching prompts."
+    'Passwords and autofill'          = "Password manager, autofill, and Edge Wallet."
+    'Privacy, search, and services'   = "Tracking, telemetry, SmartScreen, and search suggestions."
+    'Copilot and AI'                  = "Copilot, AI features, and built-in AI APIs."
+    'Appearance'                      = "Toolbar, sidebar, and other visual UI elements."
+    'Default browser'                 = "Default browser checks and pin-to-taskbar prompts."
+    'Start, home, and new tab page'   = "First-run experience, new tab page, and start-up content."
+    'Languages'                       = "Spellcheck, text prediction, and Editor features."
+    'Downloads'                       = "Download-related UI, such as the PDF viewer button."
+    'Accessibility'                   = "Live Captions, Read Aloud, and image labels."
+    'System and performance'          = "Background processes, efficiency modes, and startup behavior."
+    'Extensions'                      = "Extension installation and Manifest V2 availability."
+    'Additional'                      = "Misc. hardening: telemetry, App Guard, search widget, WebRTC leak, etc."
+    'Advanced Overrides'              = "Tracking Prevention, Sleeping Tabs & DNS-over-HTTPS."
+}
+
 function New-CategoryButton ($category) {
     $btn = New-Object System.Windows.Forms.Button
     $btn.Text = $category
@@ -457,9 +476,8 @@ function New-CategoryButton ($category) {
     $btn.Height = 26
     $btn.Cursor = [System.Windows.Forms.Cursors]::Hand
     $btn.Add_Click({ Select-Tab $category }.GetNewClosure())
-    if ($script:Policies.Contains($category)) {
-        $count = $script:Policies[$category].Count
-        $script:ToolTip.SetToolTip($btn, "$category`n$count setting(s) in this tab.")
+    if ($script:CategoryDescriptions.Contains($category)) {
+        $script:ToolTip.SetToolTip($btn, "$category`n$($script:CategoryDescriptions[$category])")
     } else {
         $script:ToolTip.SetToolTip($btn, $category)
     }
@@ -649,7 +667,6 @@ $script:TxtDohCustom.BackColor = [System.Drawing.Color]::LightGray
 
 $script:TabPanels[$specialsCategoryName] = $panelSpecials
 $btnSpecials = New-CategoryButton $specialsCategoryName
-$script:ToolTip.SetToolTip($btnSpecials, "Advanced Overrides`nTracking Prevention, Sleeping Tabs, DoH & search engine customizations.")
 $tabBar.Controls.Add($btnSpecials)
 $script:TabButtons[$specialsCategoryName] = $btnSpecials
 
