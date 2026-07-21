@@ -28,7 +28,7 @@ jobs:
           from bs4 import BeautifulSoup
 
           URL = "https://learn.microsoft.com/en-us/DeployEdge/microsoft-edge-policies"
-          PATH = "data/policies.json"
+          PATH = "data/deprecated-obsolete-policies.json"
 
           SECTIONS = {
               "deprecated": "deprecated-policies",
