@@ -40,173 +40,173 @@ $script:EdgePolicyPath = Join-Path $script:BaseRegPath $script:SubKeyName
 
 # ---- Policy definitions mapping debloater.reg -------------------------------
 $script:Policies = [ordered]@{
+    'Profiles' = @(
+        @{Name='AADWebSSOAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable AAD Web SSO.'},
+        @{Name='AADWebSiteSSOUsingThisProfileEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable AAD Web site SSO.'},
+        @{Name='AutoImportAtFirstRun';                 Type='DWORD';  ApplyValue=4; Description='Disable automatic import of browser data and settings at first run.'},
+        @{Name='ConfigureOnPremisesAccountAutoSignIn'; Type='DWORD';  ApplyValue=0; Description='Disable Azure AD auto sign-in.'},
+        @{Name='GuidedSwitchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable profile switching prompts for personal/work links.'},
+        @{Name='ImplicitSignInEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Implicit Sign-In.'},
+        @{Name='ImportBrowserSettings';                Type='DWORD';  ApplyValue=0; Description='Disable importing browser settings from another browser.'},
+        @{Name='ImportOnEachLaunch';                   Type='DWORD';  ApplyValue=0; Description='Disable prompt to import browsing data on each launch.'},
+        @{Name='MSAWebSiteSSOUsingThisProfileAllowed'; Type='DWORD';  ApplyValue=0; Description='Disable MSA Web site SSO.'},
+        @{Name='ProactiveAuthWorkflowEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable proactive auth with MSN/Bing/Copilot.'},
+        @{Name='SeamlessWebToBrowserSignInEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable seamless web-to-browser sign-in.'},
+        @{Name='ShowMicrosoftRewards';                 Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Rewards experience.'}
+    )
+    'Passwords and autofill' = @(
+        @{Name='AutofillAddressEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable address autofill.'},
+        @{Name='AutofillCreditCardEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable credit card autofill.'},
+        @{Name='AutofillMembershipsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable memberships autofill.'},
+        @{Name='EdgeAutofillMlEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Machine Learning for autofill forms.'},
+        @{Name='EdgeWalletCheckoutEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Edge Wallet checkout.'},
+        @{Name='EdgeWalletEtreeEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable E-Tree in Edge Wallet.'},
+        @{Name='PasswordDismissCompromisedAlertEnabled';Type='DWORD';  ApplyValue=0; Description='Disable dismissing password warnings.'},
+        @{Name='PasswordGeneratorEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Password Generator.'},
+        @{Name='PasswordManagerEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable built-in password manager.'},
+        @{Name='PasswordMonitorAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable compromised password monitor.'},
+        @{Name='PasswordProtectionWarningTrigger';     Type='DWORD';  ApplyValue=0; Description='Disable password protection warnings.'},
+        @{Name='PaymentMethodQueryEnabled';            Type='DWORD';  ApplyValue=0; Description='Block sites from checking saved payments.'},
+        @{Name='WalletDonationEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable donations via Edge Wallet.'}
+    )
+    'Privacy, search, and services' = @(
+        @{Name='ClearCachedImagesAndFilesOnExit';      Type='DWORD';  ApplyValue=1; Description='Clear cached images and files when Edge exits.'},
+        @{Name='AddressBarTrendingSuggestEnabled';     Type='DWORD';  ApplyValue=0; Description='Disable Bing trending suggestions.'},
+        @{Name='AddressBarWorkSearchResultsEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable work suggestions in address bar.'},
+        @{Name='AdsTransparencyEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable ads transparency feature for tracking prevention.'},
+        @{Name='AlternateErrorPagesEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable alternate HTTP error suggest pages.'},
+        @{Name='BingAdsSuppression';                   Type='DWORD';  ApplyValue=1; Description='Suppress ads on Bing.com search.'},
+        @{Name='BlockThirdPartyCookies';               Type='DWORD';  ApplyValue=1; Description='Block third-party cookies.'},
+        @{Name='BuiltInDnsClientEnabled';              Type='DWORD';  ApplyValue=0; Description='Disable the built-in DNS client.'},
+        @{Name='ConfigureDoNotTrack';                  Type='DWORD';  ApplyValue=1; Description='Send Do Not Track requests to websites.'},
+        @{Name='DefaultIdleDetectionSetting';          Type='DWORD';  ApplyValue=2; Description='Block sites from detecting idle status.'},
+        @{Name='DiagnosticData';                       Type='DWORD';  ApplyValue=0; Description='Disable required/optional diagnostic data to MS.'},
+        @{Name='DisableScreenshots';                   Type='DWORD';  ApplyValue=0; Description='Disable the Screenshot (formerly web capture) feature.'},
+        @{Name='Edge3PSerpTelemetryEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable third-party search engine telemetry.'},
+        @{Name='EdgeShoppingAssistantEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable Edge Shopping Assistant.'},
+        @{Name='EnhanceSecurityMode';                  Type='DWORD';  ApplyValue=0; Description='Disable Enhance security mode in Edge.'},
+        @{Name='LocalBrowserDataShareEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable Windows search indexing Edge local data.'},
+        @{Name='PersonalizationReportingEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable sending browsing history to personalize recommendations.'},
+        @{Name='QuickSearchShowMiniMenu';              Type='DWORD';  ApplyValue=0; Description='Disable quick search mini menu.'},
+        @{Name='RelatedWebsiteSetsEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Related Website Sets (prevents related sites seeing your activity).'},
+        @{Name='ResolveNavigationErrorsUseWebService'; Type='DWORD';  ApplyValue=0; Description='Disable web service connection probing.'},
+        @{Name='ScarewareBlockerProtectionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable Scareware blocker.'},
+        @{Name='ScreenCaptureAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable screen capture / screenshot capability.'},
+        @{Name='SearchFiltersEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable suggestions search filters.'},
+        @{Name='SearchForImageEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable context menu Image Search.'},
+        @{Name='ShowPDFDefaultRecommendationsEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default PDF recommendations.'},
+        @{Name='SmartScreenDnsRequestsEnabled';        Type='DWORD';  ApplyValue=0; Description='Disable SmartScreen DNS requests (reduces background network calls).'},
+        @{Name='SpeechRecognitionEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Speech Recognition.'},
+        @{Name='SpotlightExperiencesAndRecommendationsEnabled';Type='DWORD'; ApplyValue=0; Description='Disable Spotlight and custom wallpapers.'},
+        @{Name='TyposquattingCheckerEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable Edge Website Typo Protection.'},
+        @{Name='UrlDiagnosticDataEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable sending page URLs to Microsoft.'},
+        @{Name='VisualSearchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable visual search on images.'}
+    )
+    'Copilot and AI' = @(
+        @{Name='AllowBrowsingWithCopilot';             Type='DWORD';  ApplyValue=0; Description='Disable invoking Copilot for page queries.'},
+        @{Name='BuiltInAIAPIsEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable built-in client AI APIs for web pages.'},
+        @{Name='ComposeInlineEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable writing assistant Rewrite/Compose.'},
+        @{Name='CopilotAddressBarSuggestionsEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable Copilot address bar suggestions.'},
+        @{Name='CopilotMode';                          Type='DWORD';  ApplyValue=0; Description='Disable Copilot mode entirely.'},
+        @{Name='CopilotMultitabEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable Copilot multitab context features.'},
+        @{Name='CopilotNewTabPageEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Copilot features on NTP.'},
+        @{Name='CopilotPageContext';                   Type='DWORD';  ApplyValue=0; Description='Broadly block Copilot page context.'},
+        @{Name='CopilotPageContextEnabled';            Type='DWORD';  ApplyValue=0; Description='Block Copilot side pane accessing page content.'},
+        @{Name='EdgeEntraCopilotPageContext';          Type='DWORD';  ApplyValue=0; Description='Block Entra Copilot accessing page context.'},
+        @{Name='EdgeEntraCopilotPageContextIncludesHistory';Type='DWORD'; ApplyValue=0; Description='Exclude history from Entra Copilot context.'},
+        @{Name='EdgeHistoryAISearchEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable AI search in history.'},
+        @{Name='GenAILocalFoundationalModelSettings';  Type='DWORD';  ApplyValue=1; Description='Do not download local foundational GenAI model.'},
+        @{Name='M365LinksAutoOpenCopilotEnabled';      Type='DWORD';  ApplyValue=0; Description='Do not auto-open Copilot for M365 links.'},
+        @{Name='Microsoft365CopilotChatIconEnabled';   Type='DWORD';  ApplyValue=0; Description='Hide the M365 Copilot Chat icon.'},
+        @{Name='ShareBrowsingHistoryWithCopilotSearchAllowed';Type='DWORD'; ApplyValue=0; Description='Do not share browsing history with Copilot.'}
+    )
+    'Appearance' = @(
+        @{Name='AIGenThemesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable generating themes using DALL-E.'},
+        @{Name='ConfigureShare';                       Type='DWORD';  ApplyValue=0; Description='Disable Share experience with other apps.'},
+        @{Name='EdgeCollectionsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the Collections feature.'},
+        @{Name='EdgeEDropEnabled';                     Type='DWORD';  ApplyValue=0; Description='Disable the file-sharing Drop feature.'},
+        @{Name='EdgeWorkspacesEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Edge Workspaces.'},
+        @{Name='HubsSidebarEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the Sidebar launcher bar.'},
+        @{Name='PersonalizeTopSitesInCustomizeSidebarEnabled';Type='DWORD'; ApplyValue=0; Description='Disable personalizing top sites in the customize sidebar.'},
+        @{Name='PinBrowserEssentialsToolbarButton';    Type='DWORD';  ApplyValue=0; Description='Unpin the Browser Essentials button from the toolbar.'},
+        @{Name='QRCodeGeneratorEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the QR Code generator.'},
+        @{Name='SearchInSidebarEnabled';               Type='DWORD';  ApplyValue=2; Description='Disable the search in sidebar feature.'},
+        @{Name='ShowDownloadsToolbarButton';           Type='DWORD';  ApplyValue=1; Description='Always show the Downloads button on the toolbar.'},
+        @{Name='ShowHomeButton';                       Type='DWORD';  ApplyValue=0; Description='Hide the Home button on toolbar.'},
+        @{Name='ShowOfficeShortcutInFavoritesBar';     Type='DWORD';  ApplyValue=0; Description='Disable showing Office shortcut in Favorites bar.'},
+        @{Name='StandaloneHubsSidebarEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable the standalone Hubs Sidebar feature.'},
+        @{Name='WebCaptureEnabled';                    Type='DWORD';  ApplyValue=0; Description='Disable the Web Capture feature.'}
+    )
+    'Default browser' = @(
+        @{Name='DefaultBrowserSettingEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable default browser check on startup.'},
+        @{Name='DefaultBrowserSettingsCampaignEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default browser prompts campaign.'},
+        @{Name='PinningWizardAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable the Pin to taskbar wizard.'}
+    )
+    'Start, home, and new tab page' = @(
+        @{Name='HideFirstRunExperience';               Type='DWORD';  ApplyValue=1; Description='Hide the First-run experience and splash screen.'},
+        @{Name='NewTabPageAppLauncherEnabled';         Type='DWORD';  ApplyValue=0; Description='Hide App Launcher on NTP.'},
+        @{Name='NewTabPageBingChatEnabled';            Type='DWORD';  ApplyValue=0; Description='Hide Bing Chat on NTP.'},
+        @{Name='NewTabPageContentEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Enterprise NTP content.'},
+        @{Name='NewTabPageQuickLinksEnabled';          Type='DWORD';  ApplyValue=0; Description='Hide Quick Links on NTP.'},
+        @{Name='NewTabPageSearchBox';                  Type='STRING'; ApplyValue='redirect'; Description='Redirect the new tab page search box to use the Address bar.'},
+        @{Name='PromotionalTabsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable promotional tabs.'},
+        @{Name='ShowRecommendationsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable feature recommendations notifications.'}
+    )
+    'Languages' = @(
+        @{Name='ConfigureOnlineTextToSpeech';          Type='DWORD';  ApplyValue=0; Description='Disable Online Text-to-Speech voices.'},
+        @{Name='MicrosoftEditorProofingEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Editor proofing.'},
+        @{Name='MicrosoftEditorSynonymsEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Editor synonyms.'},
+        @{Name='SpellcheckEnabled';                    Type='DWORD';  ApplyValue=0; Description='Disable spellcheck.'},
+        @{Name='TextPredictionEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable text prediction.'}
+    )
+    'Downloads' = @(
+        @{Name='QuickViewOfficeFilesEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable quick view Office files on the web.'},
+        @{Name='ShowAcrobatSubscriptionButton';        Type='DWORD';  ApplyValue=0; Description='Disable the Acrobat premium subscription button in PDF viewer.'}
+    )
     'Accessibility' = @(
         @{Name='AccessibilityImageLabelsEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable image labels description service.'},
         @{Name='LiveCaptionsAllowed';                  Type='DWORD';  ApplyValue=0; Description='Disable Live captions.'},
         @{Name='ReadAloudEnabled';                     Type='DWORD';  ApplyValue=0; Description='Disable the Read Aloud feature.'}
     )
-    'Content settings' = @(
-        @{Name='BlockThirdPartyCookies';               Type='DWORD';  ApplyValue=1; Description='Block third-party cookies.'},
-        @{Name='DefaultIdleDetectionSetting';          Type='DWORD';  ApplyValue=2; Description='Block sites from detecting idle status.'},
-        @{Name='ShowPDFDefaultRecommendationsEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default PDF recommendations.'},
-        @{Name='SpotlightExperiencesAndRecommendationsEnabled';Type='DWORD'; ApplyValue=0; Description='Disable Spotlight and custom wallpapers.'},
-        @{Name='AdsTransparencyEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable ads transparency feature for tracking prevention.'},
-        @{Name='ConfigureDoNotTrack';                  Type='DWORD';  ApplyValue=1; Description='Send Do Not Track requests to websites.'},
-        @{Name='RelatedWebsiteSetsEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Related Website Sets (prevents related sites seeing your activity).'}
-    )
-    'Copilot' = @(
-        @{Name='ComposeInlineEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable writing assistant Rewrite/Compose.'},
-        @{Name='AllowBrowsingWithCopilot';             Type='DWORD';  ApplyValue=0; Description='Disable invoking Copilot for page queries.'},
-        @{Name='Microsoft365CopilotChatIconEnabled';   Type='DWORD';  ApplyValue=0; Description='Hide the M365 Copilot Chat icon.'},
-        @{Name='CopilotPageContextEnabled';            Type='DWORD';  ApplyValue=0; Description='Block Copilot side pane accessing page content.'},
-        @{Name='EdgeEntraCopilotPageContext';          Type='DWORD';  ApplyValue=0; Description='Block Entra Copilot accessing page context.'},
-        @{Name='CopilotMode';                          Type='DWORD';  ApplyValue=0; Description='Disable Copilot mode entirely.'},
-        @{Name='CopilotMultitabEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable Copilot multitab context features.'},
-        @{Name='CopilotNewTabPageEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Copilot features on NTP.'},
-        @{Name='CopilotPageContext';                   Type='DWORD';  ApplyValue=0; Description='Broadly block Copilot page context.'},
-        @{Name='EdgeEntraCopilotPageContextIncludesHistory';Type='DWORD'; ApplyValue=0; Description='Exclude history from Entra Copilot context.'},
-        @{Name='M365LinksAutoOpenCopilotEnabled';      Type='DWORD';  ApplyValue=0; Description='Do not auto-open Copilot for M365 links.'},
-        @{Name='ShareBrowsingHistoryWithCopilotSearchAllowed';Type='DWORD'; ApplyValue=0; Description='Do not share browsing history with Copilot.'},
-        @{Name='CopilotAddressBarSuggestionsEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable Copilot address bar suggestions.'}
-    )
-    'Diagnostic Data' = @(
-        @{Name='DiagnosticData';                       Type='DWORD';  ApplyValue=0; Description='Disable required/optional diagnostic data to MS.'},
-        @{Name='UrlDiagnosticDataEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable sending page URLs to Microsoft.'},
-        @{Name='Edge3PSerpTelemetryEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable third-party search engine telemetry.'},
-        @{Name='PersonalizationReportingEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable sending browsing history to personalize recommendations.'}
+    'System and performance' = @(
+        @{Name='AskBeforeCloseEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable confirmation dialog before closing a window with multiple tabs.'},
+        @{Name='BackgroundModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Do not run background apps when Edge closes.'},
+        @{Name='EfficiencyModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Efficiency Mode.'},
+        @{Name='ExtensionsPerformanceDetectorEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable extension performance detector.'},
+        @{Name='HardwareAccelerationModeEnabled';      Type='DWORD';  ApplyValue=1; Description='Use hardware acceleration when available.'},
+        @{Name='HighEfficiencyModeEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable High Efficiency Mode.'},
+        @{Name='NetworkPredictionOptions';             Type='DWORD';  ApplyValue=2; Description='Never predict network actions/prefetch.'},
+        @{Name='PerformanceDetectorEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable tab performance detector.'},
+        @{Name='StartupBoostEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable Startup Boost.'},
+        @{Name='TabServicesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the tab organization service.'}
     )
     'Extensions' = @(
         @{Name='ExtensionManifestV2Availability';      Type='DWORD';  ApplyValue=2; Description='Allow Manifest V2 extensions.'}
     )
-    'Generative AI' = @(
-        @{Name='BuiltInAIAPIsEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable built-in client AI APIs for web pages.'},
-        @{Name='EdgeHistoryAISearchEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable AI search in history.'},
-        @{Name='AIGenThemesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable generating themes using DALL-E.'},
-        @{Name='GenAILocalFoundationalModelSettings';  Type='DWORD';  ApplyValue=1; Description='Do not download local foundational GenAI model.'}
-    )
-    'Identity and sign-in' = @(
-        @{Name='GuidedSwitchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable profile switching prompts for personal/work links.'},
-        @{Name='ProactiveAuthWorkflowEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable proactive auth with MSN/Bing/Copilot.'},
-        @{Name='SeamlessWebToBrowserSignInEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable seamless web-to-browser sign-in.'},
-        @{Name='ImplicitSignInEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Implicit Sign-In.'},
-        @{Name='AADWebSiteSSOUsingThisProfileEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable AAD Web site SSO.'},
-        @{Name='AADWebSSOAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable AAD Web SSO.'},
-        @{Name='MSAWebSiteSSOUsingThisProfileAllowed'; Type='DWORD';  ApplyValue=0; Description='Disable MSA Web site SSO.'},
-        @{Name='ConfigureOnPremisesAccountAutoSignIn'; Type='DWORD';  ApplyValue=0; Description='Disable Azure AD auto sign-in.'}
-    )
-    'Microsoft Office' = @(
-        @{Name='QuickViewOfficeFilesEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable quick view Office files on the web.'},
-        @{Name='ShowOfficeShortcutInFavoritesBar';     Type='DWORD';  ApplyValue=0; Description='Disable showing Office shortcut in Favorites bar.'}
-    )
-    'Network settings' = @(
-        @{Name='NetworkPredictionOptions';             Type='DWORD';  ApplyValue=2; Description='Never predict network actions/prefetch.'},
-        @{Name='BuiltInDnsClientEnabled';              Type='DWORD';  ApplyValue=0; Description='Disable the built-in DNS client.'}
-    )
-    'Password manager and protection' = @(
-        @{Name='PasswordGeneratorEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Password Generator.'},
-        @{Name='PasswordManagerEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable built-in password manager.'},
-        @{Name='PasswordMonitorAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable compromised password monitor.'},
-        @{Name='PasswordProtectionWarningTrigger';     Type='DWORD';  ApplyValue=0; Description='Disable password protection warnings.'},
-        @{Name='PasswordDismissCompromisedAlertEnabled';Type='DWORD';  ApplyValue=0; Description='Disable dismissing password warnings.'}
-    )
-    'Performance' = @(
-        @{Name='BackgroundModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Do not run background apps when Edge closes.'},
-        @{Name='StartupBoostEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable Startup Boost.'},
-        @{Name='EfficiencyModeEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Efficiency Mode.'},
-        @{Name='ExtensionsPerformanceDetectorEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable extension performance detector.'},
-        @{Name='PerformanceDetectorEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable tab performance detector.'},
-        @{Name='ClearCachedImagesAndFilesOnExit';      Type='DWORD';  ApplyValue=1; Description='Clear cached images and files when Edge exits.'},
-        @{Name='HardwareAccelerationModeEnabled';      Type='DWORD';  ApplyValue=1; Description='Use hardware acceleration when available.'},
-        @{Name='HighEfficiencyModeEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable High Efficiency Mode.'},
-        @{Name='TabServicesEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the tab organization service.'}
-    )
-    'Startup & New Tab' = @(
-        @{Name='ShowHomeButton';                       Type='DWORD';  ApplyValue=0; Description='Hide the Home button on toolbar.'},
-        @{Name='NewTabPageContentEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Enterprise NTP content.'},
-        @{Name='NewTabPageAppLauncherEnabled';         Type='DWORD';  ApplyValue=0; Description='Hide App Launcher on NTP.'},
-        @{Name='NewTabPageBingChatEnabled';            Type='DWORD';  ApplyValue=0; Description='Hide Bing Chat on NTP.'},
-        @{Name='NewTabPageQuickLinksEnabled';          Type='DWORD';  ApplyValue=0; Description='Hide Quick Links on NTP.'},
-        @{Name='AutoImportAtFirstRun';                 Type='DWORD';  ApplyValue=4; Description='Disable automatic import of browser data and settings at first run.'},
-        @{Name='HideFirstRunExperience';               Type='DWORD';  ApplyValue=1; Description='Hide the First-run experience and splash screen.'},
-        @{Name='ImportBrowserSettings';                Type='DWORD';  ApplyValue=0; Description='Disable importing browser settings from another browser.'},
-        @{Name='ImportOnEachLaunch';                   Type='DWORD';  ApplyValue=0; Description='Disable prompt to import browsing data on each launch.'},
-        @{Name='NewTabPageSearchBox';                  Type='STRING'; ApplyValue='redirect'; Description='Redirect the new tab page search box to use the Address bar.'}
-    )
     'Additional' = @(
-        @{Name='SplitScreenEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the split screen feature.'},
-        @{Name='ShowMicrosoftRewards';                 Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Rewards experience.'},
-        @{Name='EdgeWalletCheckoutEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable Edge Wallet checkout.'},
-        @{Name='EdgeWalletEtreeEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable E-Tree in Edge Wallet.'},
-        @{Name='WalletDonationEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable donations via Edge Wallet.'},
         @{Name='AllowGamesMenu';                       Type='DWORD';  ApplyValue=0; Description='Disable Games menu.'},
-        @{Name='EdgeEDropEnabled';                     Type='DWORD';  ApplyValue=0; Description='Disable the file-sharing Drop feature.'},
-        @{Name='InAppSupportEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable contact support options in-app.'},
-        @{Name='QRCodeGeneratorEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the QR Code generator.'},
-        @{Name='ShowDownloadsToolbarButton';           Type='DWORD';  ApplyValue=1; Description='Always show the Downloads button on the toolbar.'},
-        @{Name='RemoteDebuggingAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable remote debugging.'},
-        @{Name='VisualSearchEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable visual search on images.'},
-        @{Name='UploadFromPhoneEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the upload from mobile feature.'},
-        @{Name='AskBeforeCloseEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable confirmation dialog before closing a window with multiple tabs.'},
-        @{Name='PinningWizardAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable the Pin to taskbar wizard.'},
-        @{Name='SharedLinksEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable shared links.'},
-        @{Name='ConfigureShare';                       Type='DWORD';  ApplyValue=0; Description='Disable Share experience with other apps.'},
-        @{Name='DefaultBrowserSettingsCampaignEnabled'; Type='DWORD';  ApplyValue=0; Description='Disable default browser prompts campaign.'},
-        @{Name='LocalBrowserDataShareEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable Windows search indexing Edge local data.'},
-        @{Name='MicrosoftEdgeInsiderPromotionEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable Insider channels promotion.'},
-        @{Name='EdgeAssetDeliveryServiceEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable Asset Delivery Service.'},
-        @{Name='UserFeedbackAllowed';                  Type='DWORD';  ApplyValue=0; Description='Disable user feedback feature.'},
-        @{Name='DefaultShareAdditionalOSRegionSetting';Type='DWORD';  ApplyValue=2; Description='Never share additional OS region.'},
-        @{Name='EdgeShoppingAssistantEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable Edge Shopping Assistant.'},
-        @{Name='BrowserNetworkTimeQueriesEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable network time queries.'},
-        @{Name='EdgeAdminCenterEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable Edge Admin Center.'},
-        @{Name='WebRtcLocalhostIpHandling';            Type='STRING'; ApplyValue='disable_non_proxied_udp'; Description='Disable WebRTC non-proxied UDP (stops IP leak).'},
-        @{Name='RoamingProfileSupportEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable roaming profiles support.'},
-        @{Name='ShowRecommendationsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable feature recommendations notifications.'},
-        @{Name='TextPredictionEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable text prediction.'},
-        @{Name='PromotionalTabsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable promotional tabs.'},
-        @{Name='SpeechRecognitionEnabled';             Type='DWORD';  ApplyValue=0; Description='Disable Speech Recognition.'},
-        @{Name='AutofillAddressEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable address autofill.'},
-        @{Name='AutofillCreditCardEnabled';            Type='DWORD';  ApplyValue=0; Description='Disable credit card autofill.'},
-        @{Name='AutofillMembershipsEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable memberships autofill.'},
-        @{Name='PaymentMethodQueryEnabled';            Type='DWORD';  ApplyValue=0; Description='Block sites from checking saved payments.'},
-        @{Name='EdgeAutofillMlEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Machine Learning for autofill forms.'},
-        @{Name='AlternateErrorPagesEnabled';           Type='DWORD';  ApplyValue=0; Description='Disable alternate HTTP error suggest pages.'},
-        @{Name='ResolveNavigationErrorsUseWebService'; Type='DWORD';  ApplyValue=0; Description='Disable web service connection probing.'},
-        @{Name='SearchForImageEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable context menu Image Search.'},
-        @{Name='SearchFiltersEnabled';                 Type='DWORD';  ApplyValue=0; Description='Disable suggestions search filters.'},
-        @{Name='SearchbarAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable search bar desktop widget.'},
-        @{Name='SearchbarIsEnabledOnStartup';          Type='DWORD';  ApplyValue=0; Description='Disable search widget on startup.'},
-        @{Name='WebWidgetAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable Web Widget entirely.'},
-        @{Name='EdgeWorkspacesEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Edge Workspaces.'},
+        @{Name='ApplicationBoundEncryptionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable app-bound local data encryption.'},
         @{Name='ApplicationGuardFavoritesSyncEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable sync of favorites to App Guard.'},
         @{Name='ApplicationGuardTrafficIdentificationEnabled';Type='DWORD'; ApplyValue=0; Description='Disable outbound App Guard traffic headers.'},
-        @{Name='WhatsNewPageForEntraProfilesEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable "What`s New" page for Entra profiles.'},
-        @{Name='QuickSearchShowMiniMenu';              Type='DWORD';  ApplyValue=0; Description='Disable quick search mini menu.'},
-        @{Name='MicrosoftEditorSynonymsEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Editor synonyms.'},
-        @{Name='MicrosoftEditorProofingEnabled';       Type='DWORD';  ApplyValue=0; Description='Disable Microsoft Editor proofing.'},
-        @{Name='SpellcheckEnabled';                    Type='DWORD';  ApplyValue=0; Description='Disable spellcheck.'},
-        @{Name='DefaultBrowserSettingEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable default browser check on startup.'},
+        @{Name='BrowserNetworkTimeQueriesEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable network time queries.'},
+        @{Name='DefaultShareAdditionalOSRegionSetting';Type='DWORD';  ApplyValue=2; Description='Never share additional OS region.'},
+        @{Name='EdgeAdminCenterEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable Edge Admin Center.'},
+        @{Name='EdgeAssetDeliveryServiceEnabled';      Type='DWORD';  ApplyValue=0; Description='Disable Asset Delivery Service.'},
         @{Name='EdgeManagementEnabled';                Type='DWORD';  ApplyValue=0; Description='Disable Edge management service.'},
-        @{Name='ApplicationBoundEncryptionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable app-bound local data encryption.'},
-        @{Name='ConfigureOnlineTextToSpeech';          Type='DWORD';  ApplyValue=0; Description='Disable Online Text-to-Speech voices.'},
+        @{Name='InAppSupportEnabled';                  Type='DWORD';  ApplyValue=0; Description='Disable contact support options in-app.'},
         @{Name='MAMEnabled';                           Type='DWORD';  ApplyValue=0; Description='Disable Intune MAM policy retrieval.'},
-        @{Name='ScarewareBlockerProtectionEnabled';    Type='DWORD';  ApplyValue=0; Description='Disable Scareware blocker.'},
-        @{Name='BingAdsSuppression';                   Type='DWORD';  ApplyValue=1; Description='Suppress ads on Bing.com search.'},
-        @{Name='AddressBarWorkSearchResultsEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable work suggestions in address bar.'},
-        @{Name='AddressBarTrendingSuggestEnabled';     Type='DWORD';  ApplyValue=0; Description='Disable Bing trending suggestions.'},
-        @{Name='EdgeCollectionsEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the Collections feature.'},
-        @{Name='EnhanceSecurityMode';                  Type='DWORD';  ApplyValue=0; Description='Disable Enhance security mode in Edge.'},
-        @{Name='HubsSidebarEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the Sidebar launcher bar.'},
-        @{Name='StandaloneHubsSidebarEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable the standalone Hubs Sidebar feature.'},
-        @{Name='SearchInSidebarEnabled';               Type='DWORD';  ApplyValue=2; Description='Disable the search in sidebar feature.'},
-        @{Name='PersonalizeTopSitesInCustomizeSidebarEnabled';Type='DWORD'; ApplyValue=0; Description='Disable personalizing top sites in the customize sidebar.'},
-        @{Name='PinBrowserEssentialsToolbarButton';    Type='DWORD';  ApplyValue=0; Description='Unpin the Browser Essentials button from the toolbar.'},
-        @{Name='ScreenCaptureAllowed';                 Type='DWORD';  ApplyValue=0; Description='Disable screen capture / screenshot capability.'},
-        @{Name='DisableScreenshots';                   Type='DWORD';  ApplyValue=0; Description='Disable the Screenshot (formerly web capture) feature.'},
-        @{Name='WebCaptureEnabled';                    Type='DWORD';  ApplyValue=0; Description='Disable the Web Capture feature.'},
-        @{Name='ShowAcrobatSubscriptionButton';        Type='DWORD';  ApplyValue=0; Description='Disable the Acrobat premium subscription button in PDF viewer.'},
-        @{Name='SmartScreenDnsRequestsEnabled';        Type='DWORD';  ApplyValue=0; Description='Disable SmartScreen DNS requests (reduces background network calls).'},
-        @{Name='TyposquattingCheckerEnabled';          Type='DWORD';  ApplyValue=0; Description='Disable Edge Website Typo Protection.'}
+        @{Name='MicrosoftEdgeInsiderPromotionEnabled';  Type='DWORD';  ApplyValue=0; Description='Disable Insider channels promotion.'},
+        @{Name='RemoteDebuggingAllowed';               Type='DWORD';  ApplyValue=0; Description='Disable remote debugging.'},
+        @{Name='RoamingProfileSupportEnabled';         Type='DWORD';  ApplyValue=0; Description='Disable roaming profiles support.'},
+        @{Name='SearchbarAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable search bar desktop widget.'},
+        @{Name='SearchbarIsEnabledOnStartup';          Type='DWORD';  ApplyValue=0; Description='Disable search widget on startup.'},
+        @{Name='SharedLinksEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable shared links.'},
+        @{Name='SplitScreenEnabled';                   Type='DWORD';  ApplyValue=0; Description='Disable the split screen feature.'},
+        @{Name='UploadFromPhoneEnabled';               Type='DWORD';  ApplyValue=0; Description='Disable the upload from mobile feature.'},
+        @{Name='UserFeedbackAllowed';                  Type='DWORD';  ApplyValue=0; Description='Disable user feedback feature.'},
+        @{Name='WebRtcLocalhostIpHandling';            Type='STRING'; ApplyValue='disable_non_proxied_udp'; Description='Disable WebRTC non-proxied UDP (stops IP leak).'},
+        @{Name='WebWidgetAllowed';                     Type='DWORD';  ApplyValue=0; Description='Disable Web Widget entirely.'},
+        @{Name='WhatsNewPageForEntraProfilesEnabled';   Type='DWORD';  ApplyValue=0; Description='Disable "What`s New" page for Entra profiles.'}
     )
 }
 
@@ -218,7 +218,7 @@ $script:Specials = [ordered]@{
         Value  = "ntp.msn.com"
         Type   = "String"
         Description = "Blocks default new tab page by adding ntp.msn.com to URLBlocklist."
-        Category = "Startup & New Tab"
+        Category = "Start, home, and new tab page"
     }
     'Install Minimal New Tab extension' = @{
         SubKey = "ExtensionInstallForcelist"
@@ -234,14 +234,14 @@ $script:Specials = [ordered]@{
         Value  = "[*.]google.com"
         Type   = "String"
         Description = "Allows storing Google cookies to prevent getting signed out."
-        Category = "Content settings"
+        Category = "Privacy, search, and services"
     }
     'Google Web Only (ManagedSearchEngines)' = @{
         Name   = "ManagedSearchEngines"
         Value  = "[{`"is_default`":true,`"keyword`":`"google.com`",`"name`":`"Google`",`"search_url`":`"https://www.google.com/search?q={searchTerms}&udm=14`",`"suggest_url`":`"https://www.google.com/complete/search?output=chrome&q={searchTerms}`"}]"
         Type   = "String"
         Description = "Sets Google Web (no AI) as default Managed Search Engine."
-        Category = "Content settings"
+        Category = "Privacy, search, and services"
     }
 }
 
@@ -292,21 +292,75 @@ $subBannerLabel.Location = New-Object System.Drawing.Point(15, 32)
 $subBannerLabel.Size = New-Object System.Drawing.Size(530, 20)
 $banner.Controls.Add($subBannerLabel)
 
-# Policy search box + button (find which tab a policy lives in by name/description)
+# Policy search - collapsed to a single icon button in the banner; clicking it
+# reveals the textbox + Search button so the banner stays clean by default.
+$btnSearchIcon = New-Object System.Windows.Forms.Button
+$btnSearchIcon.Text = [System.Char]::ConvertFromUtf32(0x1F50D)   # 🔍
+$btnSearchIcon.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 12)
+$btnSearchIcon.ForeColor = [System.Drawing.Color]::White
+$btnSearchIcon.BackColor = $banner.BackColor
+$btnSearchIcon.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnSearchIcon.FlatAppearance.BorderSize = 0
+$btnSearchIcon.FlatAppearance.MouseOverBackColor = [System.Drawing.Color]::FromArgb(51, 65, 85)
+$btnSearchIcon.Location = New-Object System.Drawing.Point(795, 15)
+$btnSearchIcon.Size = New-Object System.Drawing.Size(30, 30)
+$btnSearchIcon.Cursor = [System.Windows.Forms.Cursors]::Hand
+$script:ToolTip.SetToolTip($btnSearchIcon, "Search all tabs by policy name or description.")
+$banner.Controls.Add($btnSearchIcon)
+$btnSearchIcon.BringToFront()
+
+# Search flyout panel (hidden by default). Overlays the right side of the banner
+# so it doesn't take up permanent space when not in use.
+$searchFlyout = New-Object System.Windows.Forms.Panel
+$searchFlyout.Location = New-Object System.Drawing.Point(430, 12)
+$searchFlyout.Size = New-Object System.Drawing.Size(395, 36)
+$searchFlyout.BackColor = $banner.BackColor
+$searchFlyout.Visible = $false
+$banner.Controls.Add($searchFlyout)
+
 $txtSearch = New-Object System.Windows.Forms.TextBox
-$txtSearch.Location = New-Object System.Drawing.Point(560, 16)
-$txtSearch.Size = New-Object System.Drawing.Size(190, 24)
+$txtSearch.Location = New-Object System.Drawing.Point(0, 5)
+$txtSearch.Size = New-Object System.Drawing.Size(255, 24)
 $txtSearch.Font = $fontNormal
-$banner.Controls.Add($txtSearch)
+$searchFlyout.Controls.Add($txtSearch)
 
 $btnSearch = New-Object System.Windows.Forms.Button
 $btnSearch.Text = "Search"
-$btnSearch.Location = New-Object System.Drawing.Point(755, 15)
+$btnSearch.Location = New-Object System.Drawing.Point(260, 3)
 $btnSearch.Size = New-Object System.Drawing.Size(65, 25)
 $btnSearch.Font = $fontNormal
 $btnSearch.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $script:ToolTip.SetToolTip($btnSearch, "Search all tabs by policy name or description.")
-$banner.Controls.Add($btnSearch)
+$searchFlyout.Controls.Add($btnSearch)
+
+$btnSearchClose = New-Object System.Windows.Forms.Button
+$btnSearchClose.Text = [char]0x2715   # ✕
+$btnSearchClose.Font = $fontNormal
+$btnSearchClose.ForeColor = [System.Drawing.Color]::White
+$btnSearchClose.BackColor = $banner.BackColor
+$btnSearchClose.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnSearchClose.FlatAppearance.BorderSize = 0
+$btnSearchClose.Location = New-Object System.Drawing.Point(330, 3)
+$btnSearchClose.Size = New-Object System.Drawing.Size(25, 25)
+$btnSearchClose.Cursor = [System.Windows.Forms.Cursors]::Hand
+$script:ToolTip.SetToolTip($btnSearchClose, "Close search")
+$searchFlyout.Controls.Add($btnSearchClose)
+
+function Show-SearchFlyout {
+    $searchFlyout.Visible = $true
+    $searchFlyout.BringToFront()
+    $txtSearch.Focus()
+    $txtSearch.SelectAll()
+}
+function Hide-SearchFlyout {
+    $searchFlyout.Visible = $false
+    if ($script:ResultsListBox) { $script:ResultsListBox.Visible = $false }
+}
+
+$btnSearchIcon.Add_Click({
+    if ($searchFlyout.Visible) { Hide-SearchFlyout } else { Show-SearchFlyout }
+})
+$btnSearchClose.Add_Click({ Hide-SearchFlyout })
 
 # Tab bar for Categories
 # NOTE: A native WinForms TabControl with Multiline=$true stacks overflow rows in
@@ -352,6 +406,7 @@ $fontTabSelected = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
 function Select-Tab ($name) {
     Clear-SearchHighlight
     if ($script:ResultsListBox) { $script:ResultsListBox.Visible = $false }
+    if ($searchFlyout) { $searchFlyout.Visible = $false }
     foreach ($key in $script:TabPanels.Keys) {
         $script:TabPanels[$key].Visible = ($key -eq $name)
     }
