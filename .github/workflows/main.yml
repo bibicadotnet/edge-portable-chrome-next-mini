@@ -200,8 +200,7 @@ jobs:
             
             (New-Object System.Net.WebClient).DownloadFile($chromeNextAssetUrl, "$tempDir\chromenext.zip")
 
-            Copy-Item "$env:GITHUB_WORKSPACE\debloater.reg" "$edgePath\debloater.reg" -Force
-            Copy-Item "$env:GITHUB_WORKSPACE\restore_debloater.reg" "$edgePath\restore_debloater.reg" -Force
+            Copy-Item "$env:GITHUB_WORKSPACE\debloater-gui.bat" "$edgePath\debloater-gui.bat" -Force
             Copy-Item "$env:GITHUB_WORKSPACE\default-apps-multi-profile.bat" "$edgePath\default-apps-multi-profile.bat" -Force
             Copy-Item "$env:GITHUB_WORKSPACE\bypass_windows_defender.bat" "$edgePath\bypass_windows_defender.bat" -Force
 
