@@ -1,0 +1,88 @@
+name: Update Edge deprecated/obsolete policies
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - run: pip install requests beautifulsoup4
+
+      - name: Scrape & merge
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, re
+          import requests
+          from bs4 import BeautifulSoup
+
+          URL = "https://learn.microsoft.com/en-us/DeployEdge/microsoft-edge-policies"
+          PATH = "data/policies.json"
+
+          SECTIONS = {
+              "deprecated": "deprecated-policies",
+              "obsolete": "obsolete-policies",
+          }
+
+          html = requests.get(URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30).text
+          soup = BeautifulSoup(html, "html.parser")
+
+          def get_names(section_id):
+              heading = soup.find(id=section_id)
+              if not heading:
+                  return []
+              table = None
+              for sib in heading.find_all_next():
+                  if re.match(r"^h[1-6]$", sib.name or ""):
+                      break
+                  if sib.name == "table":
+                      table = sib
+                      break
+              if table is None:
+                  return []
+              names = []
+              for row in table.find_all("tr"):
+                  cell = row.find(["td", "th"])
+                  if not cell or cell.get_text(strip=True).lower() == "policy name":
+                      continue
+                  link = cell.find("a")
+                  name = (link.get_text(strip=True) if link else cell.get_text(strip=True)).strip()
+                  if name:
+                      names.append(name)
+              return names
+
+          data = {"deprecated": [], "obsolete": []}
+          if os.path.exists(PATH):
+              with open(PATH, encoding="utf-8") as f:
+                  data = json.load(f)
+
+          for key, section_id in SECTIONS.items():
+              scraped = get_names(section_id)
+              data[key] = sorted(set(data.get(key, [])) | set(scraped), key=str.lower)
+
+          os.makedirs("data", exist_ok=True)
+          with open(PATH, "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+              f.write("\n")
+          PYEOF
+
+      - name: Commit nếu có thay đổi
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- data/policies.json; then
+            git add data/policies.json
+            git commit -m "chore: update deprecated/obsolete policies"
+            git push
+          fi
