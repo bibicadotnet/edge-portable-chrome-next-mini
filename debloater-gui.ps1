@@ -925,11 +925,17 @@ function Load-RegistryState {
 # Helper: Apply policies to registry
 function Apply-Policies {
     Write-Log "Saving settings to registry key $($script:EdgePolicyPath)..."
-    
-    # Make sure registry path exists
-    if (-not (Test-Path $script:EdgePolicyPath)) {
-        New-Item -Path $script:EdgePolicyPath -Force | Out-Null
+
+    # Wipe the entire policy key first (mirrors the manual .reg workflow:
+    # [-HKCU\...\Edge_Portable] followed by [HKCU\...\Edge_Portable]).
+    # This clears out any stale values/subkeys left over from an older
+    # version of this script or from settings no longer in the list below,
+    # so the registry always ends up matching exactly what's checked.
+    if (Test-Path $script:EdgePolicyPath) {
+        Remove-Item -Path $script:EdgePolicyPath -Recurse -Force -ErrorAction SilentlyContinue
+        Write-Log "Cleared existing policy key before applying." "INFO"
     }
+    New-Item -Path $script:EdgePolicyPath -Force | Out-Null
     
     $applied = 0
     $cleared = 0
