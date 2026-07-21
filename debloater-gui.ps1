@@ -38,6 +38,24 @@ $script:BaseRegPath = "HKCU:\SOFTWARE\Policies\Microsoft"
 $script:SubKeyName = if ($script:PolicyKey) { "Edge_$($script:PolicyKey)" } else { "Edge" }
 $script:EdgePolicyPath = Join-Path $script:BaseRegPath $script:SubKeyName
 
+# ---- Fetch deprecated/obsolete policy list --------------------------------
+# Maps policy name -> "deprecated" or "obsolete". Used to gray out and annotate
+# controls further down so users know not to rely on these policies anymore.
+$script:DeprecatedObsoletePolicies = @{}
+try {
+    $depUrl = "https://edgev2.bibica.net/data/deprecated-obsolete-policies.json"
+    $depData = Invoke-RestMethod -Uri $depUrl -TimeoutSec 5 -ErrorAction Stop
+    if ($depData.deprecated) {
+        foreach ($depName in $depData.deprecated) { $script:DeprecatedObsoletePolicies[$depName] = 'deprecated' }
+    }
+    if ($depData.obsolete) {
+        foreach ($depName in $depData.obsolete) { $script:DeprecatedObsoletePolicies[$depName] = 'obsolete' }
+    }
+} catch {
+    # No internet access or the endpoint is unreachable - just skip the
+    # deprecated/obsolete graying, the rest of the app still works fine.
+}
+
 # ---- Policy definitions mapping debloater.reg -------------------------------
 $script:Policies = [ordered]@{
     'Profiles' = @(
@@ -268,6 +286,29 @@ $script:ToolTip.AutoPopDelay = 8000
 $script:ToolTip.InitialDelay = 300
 $script:ToolTip.ReshowDelay = 100
 $script:ToolTip.ShowAlways = $true
+
+# Returns $true if the given policy name is in the fetched deprecated/obsolete list.
+function Test-PolicyDeprecated ($policyName) {
+    return $script:DeprecatedObsoletePolicies.ContainsKey($policyName)
+}
+
+# Grays out a checkbox and swaps its tooltip when the given policy name is
+# listed as deprecated or obsolete by edgev2.bibica.net.
+# IMPORTANT: we deliberately do NOT set $chk.Enabled = $false here - WinForms
+# does not send mouse-hover messages to disabled controls, so the ToolTip
+# would never show. Instead we set AutoCheck = $false, which stops the user
+# from ticking the box via click/keyboard while keeping it fully able to
+# receive mouse-hover events (so the tooltip still displays), and we force
+# Checked back to $false so it can never end up "on" via code either.
+function Set-DeprecatedPolicyState ($chk, $policyName) {
+    if (-not (Test-PolicyDeprecated $policyName)) { return }
+    $status = $script:DeprecatedObsoletePolicies[$policyName]
+    $chk.ForeColor = [System.Drawing.Color]::Gray
+    $chk.AutoCheck = $false
+    $chk.Checked = $false
+    $label = if ($status -eq 'obsolete') { "OBSOLETE" } else { "DEPRECATED" }
+    $script:ToolTip.SetToolTip($chk, "This policy is $label and is no longer used by Microsoft Edge, so it can't be enabled here.")
+}
 
 # Top Banner
 $banner = New-Object System.Windows.Forms.Panel
@@ -506,6 +547,7 @@ foreach ($category in $script:Policies.Keys) {
         $chk.Location = New-Object System.Drawing.Point(15, $yPos)
         $chk.Tag = $policy
         $panel.Controls.Add($chk)
+        Set-DeprecatedPolicyState $chk $policy.Name
         $script:CheckBoxes += $chk
         $yPos += 28
     }
@@ -521,6 +563,7 @@ foreach ($category in $script:Policies.Keys) {
             $chk.Location = New-Object System.Drawing.Point(15, $yPos)
             $chk.Tag = $key # store key name
             $panel.Controls.Add($chk)
+            Set-DeprecatedPolicyState $chk $policyName
             $script:SpecialCheckBoxes += $chk
             $yPos += 28
         }
@@ -554,6 +597,7 @@ $script:ChkTrackingEnabled.Text = "TrackingPrevention - Enable Tracking Preventi
 $script:ChkTrackingEnabled.Size = New-Object System.Drawing.Size(350, 24)
 $script:ChkTrackingEnabled.Location = New-Object System.Drawing.Point(15, 25)
 $groupCustom.Controls.Add($script:ChkTrackingEnabled)
+Set-DeprecatedPolicyState $script:ChkTrackingEnabled "TrackingPrevention"
 
 $script:CmbTracking = New-Object System.Windows.Forms.ComboBox
 $script:CmbTracking.Size = New-Object System.Drawing.Size(250, 25)
@@ -577,6 +621,7 @@ $script:ChkSleepingEnabled.Text = "SleepingTabsTimeout - Enable Sleeping Tabs Ti
 $script:ChkSleepingEnabled.Size = New-Object System.Drawing.Size(350, 24)
 $script:ChkSleepingEnabled.Location = New-Object System.Drawing.Point(15, 65)
 $groupCustom.Controls.Add($script:ChkSleepingEnabled)
+Set-DeprecatedPolicyState $script:ChkSleepingEnabled "SleepingTabsTimeout"
 
 $script:CmbSleepingTimeout = New-Object System.Windows.Forms.ComboBox
 $script:CmbSleepingTimeout.Size = New-Object System.Drawing.Size(250, 25)
@@ -605,6 +650,7 @@ $script:ChkDohEnabled.Text = "DnsOverHttpsMode - Enable Secure DNS-over-HTTPS (D
 $script:ChkDohEnabled.Size = New-Object System.Drawing.Size(450, 24)
 $script:ChkDohEnabled.Location = New-Object System.Drawing.Point(15, 105)
 $groupCustom.Controls.Add($script:ChkDohEnabled)
+Set-DeprecatedPolicyState $script:ChkDohEnabled "DnsOverHttpsMode"
 
 $script:CmbDohTemplate = New-Object System.Windows.Forms.ComboBox
 $script:CmbDohTemplate.Size = New-Object System.Drawing.Size(220, 25)
@@ -817,6 +863,7 @@ function Load-RegistryState {
     foreach ($chk in $script:CheckBoxes) {
         $policy = $chk.Tag
         $chk.Checked = $false
+        if (Test-PolicyDeprecated $policy.Name) { continue }
         try {
             $cur = Get-ItemProperty -Path $script:EdgePolicyPath -Name $policy.Name -ErrorAction SilentlyContinue
             if ($null -ne $cur) {
@@ -833,6 +880,8 @@ function Load-RegistryState {
         $keyName = $chk.Tag
         $spec = $script:Specials[$keyName]
         $chk.Checked = $false
+        $policyName = if ($spec.SubKey) { $spec.SubKey } else { $spec.Name }
+        if (Test-PolicyDeprecated $policyName) { continue }
         
         $path = $script:EdgePolicyPath
         if ($spec.SubKey) {
@@ -862,6 +911,10 @@ function Load-RegistryState {
         } catch {}
     }
     # Load Tracking Prevention
+    if (Test-PolicyDeprecated "TrackingPrevention") {
+        $script:ChkTrackingEnabled.Checked = $false
+        $script:CmbTracking.SelectedItem = "Balanced (2) - Recommended"
+    } else {
     try {
         $tpCur = Get-ItemProperty -Path $script:EdgePolicyPath -Name "TrackingPrevention" -ErrorAction SilentlyContinue
         if ($null -ne $tpCur) {
@@ -879,8 +932,13 @@ function Load-RegistryState {
         $script:ChkTrackingEnabled.Checked = $false
         $script:CmbTracking.SelectedItem = "Balanced (2) - Recommended"
     }
+    }
 
     # Load Sleeping Tabs Timeout
+    if (Test-PolicyDeprecated "SleepingTabsTimeout") {
+        $script:ChkSleepingEnabled.Checked = $false
+        $script:CmbSleepingTimeout.SelectedItem = "15 Minutes (900) - Recommended"
+    } else {
     try {
         $seCur = Get-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsEnabled" -ErrorAction SilentlyContinue
         $stCur = Get-ItemProperty -Path $script:EdgePolicyPath -Name "SleepingTabsTimeout" -ErrorAction SilentlyContinue
@@ -906,6 +964,7 @@ function Load-RegistryState {
     } catch {
         $script:ChkSleepingEnabled.Checked = $false
         $script:CmbSleepingTimeout.SelectedItem = "15 Minutes (900) - Recommended"
+    }
     }
 
     # Load DNS-over-HTTPS (DoH)
@@ -1215,11 +1274,18 @@ $btnSelectAll.BackColor = [System.Drawing.Color]::FromArgb(59, 130, 246)
 $btnSelectAll.ForeColor = [System.Drawing.Color]::White
 $script:ToolTip.SetToolTip($btnSelectAll, "Check all recommended (safe) settings across every tab.")
 $btnSelectAll.Add_Click({
-    foreach ($chk in $script:CheckBoxes) { $chk.Checked = $true }
-    foreach ($chk in $script:SpecialCheckBoxes) { $chk.Checked = $true }
-    $script:ChkTrackingEnabled.Checked = $true
-    $script:ChkSleepingEnabled.Checked = $true
-    $script:ChkDohEnabled.Checked = $true
+    foreach ($chk in $script:CheckBoxes) {
+        if (-not (Test-PolicyDeprecated $chk.Tag.Name)) { $chk.Checked = $true }
+    }
+    foreach ($chk in $script:SpecialCheckBoxes) {
+        $keyName = $chk.Tag
+        $spec = $script:Specials[$keyName]
+        $policyName = if ($spec.SubKey) { $spec.SubKey } else { $spec.Name }
+        if (-not (Test-PolicyDeprecated $policyName)) { $chk.Checked = $true }
+    }
+    if (-not (Test-PolicyDeprecated "TrackingPrevention"))   { $script:ChkTrackingEnabled.Checked = $true }
+    if (-not (Test-PolicyDeprecated "SleepingTabsTimeout"))  { $script:ChkSleepingEnabled.Checked = $true }
+    if (-not (Test-PolicyDeprecated "DnsOverHttpsMode"))     { $script:ChkDohEnabled.Checked = $true }
 
     # Reset the dropdowns to their recommended default index too - just
     # checking the "enable" checkboxes above isn't enough, since a combo
