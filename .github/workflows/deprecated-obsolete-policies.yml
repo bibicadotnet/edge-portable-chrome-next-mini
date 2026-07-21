@@ -81,7 +81,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/policies.json
+          git add data/deprecated-obsolete-policies.json
           if ! git diff --cached --quiet; then
             git commit -m "chore: update deprecated/obsolete policies"
             git push
