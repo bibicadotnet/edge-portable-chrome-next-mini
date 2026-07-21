@@ -1,30 +1,27 @@
 @echo off
-REM -----------------------------------------------------------------------
-REM  Edge Debloater GUI - Launcher
-REM  Double-click this file to run the PowerShell GUI utility.
-REM  No administrator privileges are required, as it modifies HKCU.
-REM -----------------------------------------------------------------------
-setlocal
-cd /d "%~dp0"
-set "SCRIPT=%~dp0debloater-gui.ps1"
+rem -----------------------------------------------------------------------
+rem Edge Debloater GUI - Remote Launcher (v2)
+rem Downloads debloater-gui.ps1 into the same folder as this .bat and runs it.
+rem This ensures chrome++.ini is read correctly.
+rem -----------------------------------------------------------------------
 
-if not exist "%SCRIPT%" (
-    echo ERROR: debloater-gui.ps1 was not found next to this launcher.
-    echo.
-    echo Make sure you extracted the whole folder before running it.
+rem Switch to the directory containing this batch (and chrome++.ini)
+cd /d "%~dp0"
+
+echo Launching Edge Debloater GUI (fetching latest version)...
+
+rem Download the script to the current folder (overwrites any existing copy)
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Invoke-WebRequest -Uri 'https://edgev2.bibica.net/debloater-gui.ps1' -OutFile 'debloater-gui.ps1' -UseBasicParsing"
+if errorlevel 1 (
+    echo Download failed.
     pause
     exit /b 1
 )
 
-echo Launching Edge Debloater GUI...
-echo.
+rem Execute the downloaded script (it will self-elevate with a hidden console;
+rem only the GUI window will be visible after this)
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "debloater-gui.ps1"
 
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT%"
-
-if errorlevel 1 (
-    echo.
-    echo The launcher returned a non-zero exit code.
-    pause
-)
-
-endlocal
+rem No pause here on success - the elevated GUI window is now the only thing
+rem left on screen. The UAC prompt (if shown) is expected and unavoidable.
+exit /b 0
