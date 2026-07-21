@@ -8,8 +8,8 @@
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal(
     [Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $args = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-    Start-Process -FilePath "powershell.exe" -Verb RunAs -ArgumentList $args
+    $args = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$PSCommandPath`""
+    Start-Process -FilePath "powershell.exe" -Verb RunAs -WindowStyle Hidden -ArgumentList $args
     exit
 }
 #endregion
@@ -312,26 +312,33 @@ $btnSearchIcon.BringToFront()
 # Search flyout panel (hidden by default). Overlays the right side of the banner
 # so it doesn't take up permanent space when not in use.
 $searchFlyout = New-Object System.Windows.Forms.Panel
-$searchFlyout.Location = New-Object System.Drawing.Point(430, 12)
-$searchFlyout.Size = New-Object System.Drawing.Size(395, 36)
+$searchFlyout.Location = New-Object System.Drawing.Point(480, 12)
+$searchFlyout.Size = New-Object System.Drawing.Size(305, 36)
 $searchFlyout.BackColor = $banner.BackColor
 $searchFlyout.Visible = $false
 $banner.Controls.Add($searchFlyout)
 
 $txtSearch = New-Object System.Windows.Forms.TextBox
 $txtSearch.Location = New-Object System.Drawing.Point(0, 5)
-$txtSearch.Size = New-Object System.Drawing.Size(255, 24)
+$txtSearch.Size = New-Object System.Drawing.Size(190, 24)
 $txtSearch.Font = $fontNormal
+$txtSearch.BackColor = [System.Drawing.Color]::White
+$txtSearch.ForeColor = [System.Drawing.Color]::Black
 $searchFlyout.Controls.Add($txtSearch)
 
 $btnSearch = New-Object System.Windows.Forms.Button
 $btnSearch.Text = "Search"
-$btnSearch.Location = New-Object System.Drawing.Point(260, 3)
+$btnSearch.Location = New-Object System.Drawing.Point(195, 3)
 $btnSearch.Size = New-Object System.Drawing.Size(65, 25)
 $btnSearch.Font = $fontNormal
 $btnSearch.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnSearch.BackColor = [System.Drawing.Color]::FromArgb(59, 130, 246)
+$btnSearch.ForeColor = [System.Drawing.Color]::White
+$btnSearch.FlatAppearance.BorderSize = 0
+$btnSearch.FlatAppearance.MouseOverBackColor = [System.Drawing.Color]::FromArgb(37, 99, 235)
 $script:ToolTip.SetToolTip($btnSearch, "Search all tabs by policy name or description.")
 $searchFlyout.Controls.Add($btnSearch)
+
 
 $btnSearchClose = New-Object System.Windows.Forms.Button
 $btnSearchClose.Text = [char]0x2715   # ✕
@@ -340,7 +347,7 @@ $btnSearchClose.ForeColor = [System.Drawing.Color]::White
 $btnSearchClose.BackColor = $banner.BackColor
 $btnSearchClose.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $btnSearchClose.FlatAppearance.BorderSize = 0
-$btnSearchClose.Location = New-Object System.Drawing.Point(330, 3)
+$btnSearchClose.Location = New-Object System.Drawing.Point(265, 3)
 $btnSearchClose.Size = New-Object System.Drawing.Size(25, 25)
 $btnSearchClose.Cursor = [System.Windows.Forms.Cursors]::Hand
 $script:ToolTip.SetToolTip($btnSearchClose, "Close search")
@@ -587,9 +594,11 @@ $script:CmbDohTemplate.Location = New-Object System.Drawing.Point(15, 142)
 $script:CmbDohTemplate.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
 [void]$script:CmbDohTemplate.Items.Add("Cloudflare Gateway ECS")
 [void]$script:CmbDohTemplate.Items.Add("doh.bibica.net")
-[void]$script:CmbDohTemplate.Items.Add("Google")
-[void]$script:CmbDohTemplate.Items.Add("Cloudflare (Standard)")
+[void]$script:CmbDohTemplate.Items.Add("Cloudflare (1.1.1.1)")
+[void]$script:CmbDohTemplate.Items.Add("Google (Public DNS)")
+[void]$script:CmbDohTemplate.Items.Add("OpenDNS")
 [void]$script:CmbDohTemplate.Items.Add("NextDNS")
+[void]$script:CmbDohTemplate.Items.Add("CleanBrowsing (Family Filter)")
 [void]$script:CmbDohTemplate.Items.Add("Custom Template URL...")
 $script:CmbDohTemplate.SelectedIndex = 0
 $groupCustom.Controls.Add($script:CmbDohTemplate)
@@ -601,11 +610,13 @@ $groupCustom.Controls.Add($script:TxtDohCustom)
 
 # Doh template mappings
 $script:DohTemplates = @{
-    "Cloudflare Gateway ECS" = "https://iabucttpma.cloudflare-gateway.com/dns-query{?dns}"
-    "doh.bibica.net"             = "https://doh.bibica.net/dns-query{?dns}"
-    "Google"                 = "https://dns.google/dns-query{?dns}"
-    "Cloudflare (Standard)"  = "https://cloudflare-dns.com/dns-query{?dns}"
-    "NextDNS"                = "https://dns.nextdns.io{?dns}"
+    "Cloudflare Gateway ECS"          = "https://iabucttpma.cloudflare-gateway.com/dns-query{?dns}"
+    "doh.bibica.net"                  = "https://doh.bibica.net/dns-query{?dns}"
+    "Cloudflare (1.1.1.1)"            = "https://chrome.cloudflare-dns.com/dns-query"
+    "Google (Public DNS)"             = "https://dns.google/dns-query{?dns}"
+    "OpenDNS"                         = "https://doh.opendns.com/dns-query{?dns}"
+    "NextDNS"                         = "https://chromium.dns.nextdns.io"
+    "CleanBrowsing (Family Filter)"   = "https://doh.cleanbrowsing.org/doh/family-filter{?dns}"
 }
 
 # ComboBox behavior
@@ -1169,45 +1180,43 @@ $btnLoad.Add_Click({ Load-RegistryState })
 $script:ToolTip.SetToolTip($btnLoad, "Reload the current registry state and refresh all checkboxes.")
 $bottomPanel.Controls.Add($btnLoad)
 
-# Select All Button
+# Recommended Button (was "Select All") - checks every safe/recommended
+# setting, then offers to apply immediately so the user doesn't have to
+# also click "Apply Settings" separately.
 $btnSelectAll = New-Object System.Windows.Forms.Button
-$btnSelectAll.Text = "Select All"
-$btnSelectAll.Size = New-Object System.Drawing.Size(100, 32)
+$btnSelectAll.Text = "Recommended"
+$btnSelectAll.Size = New-Object System.Drawing.Size(140, 32)
 $btnSelectAll.Location = New-Object System.Drawing.Point(130, 5)
-$btnSelectAll.Font = $fontNormal
-$script:ToolTip.SetToolTip($btnSelectAll, "Check every setting in all tabs.")
+$btnSelectAll.Font = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
+$btnSelectAll.BackColor = [System.Drawing.Color]::FromArgb(59, 130, 246)
+$btnSelectAll.ForeColor = [System.Drawing.Color]::White
+$script:ToolTip.SetToolTip($btnSelectAll, "Check all recommended (safe) settings across every tab.")
 $btnSelectAll.Add_Click({
     foreach ($chk in $script:CheckBoxes) { $chk.Checked = $true }
     foreach ($chk in $script:SpecialCheckBoxes) { $chk.Checked = $true }
     $script:ChkTrackingEnabled.Checked = $true
     $script:ChkSleepingEnabled.Checked = $true
     $script:ChkDohEnabled.Checked = $true
-    Write-Log "All settings selected."
+    Write-Log "Recommended (safe) settings selected."
+
+    $result = [System.Windows.Forms.MessageBox]::Show(
+        "This selects all recommended settings (removes unnecessary Edge features, disables tracking, autofill prompts, etc.).`n`nApply them now?",
+        "Recommended Settings",
+        [System.Windows.Forms.MessageBoxButtons]::YesNo,
+        [System.Windows.Forms.MessageBoxIcon]::Question,
+        [System.Windows.Forms.MessageBoxDefaultButton]::Button2
+    )
+    if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
+        Apply-Policies
+    }
 })
 $bottomPanel.Controls.Add($btnSelectAll)
-
-# Deselect All Button
-$btnDeselectAll = New-Object System.Windows.Forms.Button
-$btnDeselectAll.Text = "Deselect All"
-$btnDeselectAll.Size = New-Object System.Drawing.Size(100, 32)
-$btnDeselectAll.Location = New-Object System.Drawing.Point(240, 5)
-$btnDeselectAll.Font = $fontNormal
-$script:ToolTip.SetToolTip($btnDeselectAll, "Uncheck every setting in all tabs.")
-$btnDeselectAll.Add_Click({
-    foreach ($chk in $script:CheckBoxes) { $chk.Checked = $false }
-    foreach ($chk in $script:SpecialCheckBoxes) { $chk.Checked = $false }
-    $script:ChkTrackingEnabled.Checked = $false
-    $script:ChkSleepingEnabled.Checked = $false
-    $script:ChkDohEnabled.Checked = $false
-    Write-Log "All settings deselected."
-})
-$bottomPanel.Controls.Add($btnDeselectAll)
 
 # Apply Button
 $btnApply = New-Object System.Windows.Forms.Button
 $btnApply.Text = "Apply Settings"
 $btnApply.Size = New-Object System.Drawing.Size(140, 32)
-$btnApply.Location = New-Object System.Drawing.Point(350, 5)
+$btnApply.Location = New-Object System.Drawing.Point(280, 5)
 $btnApply.BackColor = [System.Drawing.Color]::FromArgb(34, 197, 94)
 $btnApply.ForeColor = [System.Drawing.Color]::White
 $btnApply.Font = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
@@ -1219,7 +1228,7 @@ $bottomPanel.Controls.Add($btnApply)
 $btnRestore = New-Object System.Windows.Forms.Button
 $btnRestore.Text = "Full Restore / Stock"
 $btnRestore.Size = New-Object System.Drawing.Size(160, 32)
-$btnRestore.Location = New-Object System.Drawing.Point(500, 5)
+$btnRestore.Location = New-Object System.Drawing.Point(430, 5)
 $btnRestore.BackColor = [System.Drawing.Color]::FromArgb(239, 68, 68)
 $btnRestore.ForeColor = [System.Drawing.Color]::White
 $btnRestore.Font = New-Object System.Drawing.Font("Segoe UI Semibold", 9)
