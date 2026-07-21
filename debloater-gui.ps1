@@ -1220,6 +1220,15 @@ $btnSelectAll.Add_Click({
     $script:ChkTrackingEnabled.Checked = $true
     $script:ChkSleepingEnabled.Checked = $true
     $script:ChkDohEnabled.Checked = $true
+
+    # Reset the dropdowns to their recommended default index too - just
+    # checking the "enable" checkboxes above isn't enough, since a combo
+    # box left on a previously-selected value would apply that instead
+    # of the actual recommended default.
+    $script:CmbTracking.SelectedIndex = 0        # Balanced (2) - Recommended
+    $script:CmbSleepingTimeout.SelectedIndex = 0  # 15 Minutes (900) - Recommended
+    $script:CmbDohTemplate.SelectedIndex = 0      # Cloudflare Gateway ECS (default)
+
     Write-Log "Recommended (safe) settings selected."
 
     $result = [System.Windows.Forms.MessageBox]::Show(
