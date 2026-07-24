@@ -44,12 +44,22 @@ $script:EdgePolicyPath = Join-Path $script:BaseRegPath $script:SubKeyName
 $script:DeprecatedObsoletePolicies = @{}
 try {
     $depUrl = "https://edgev2.bibica.net/data/deprecated-obsolete-policies.json"
-    $depData = Invoke-RestMethod -Uri $depUrl -TimeoutSec 5 -ErrorAction Stop
-    if ($depData.deprecated) {
-        foreach ($depName in $depData.deprecated) { $script:DeprecatedObsoletePolicies[$depName] = 'deprecated' }
-    }
-    if ($depData.obsolete) {
-        foreach ($depName in $depData.obsolete) { $script:DeprecatedObsoletePolicies[$depName] = 'obsolete' }
+    $tmpJson = Join-Path $env:TEMP "debloater-dep-$PID.json"
+    # Use curl.exe instead of Invoke-RestMethod: curl's --max-time bounds the
+    # ENTIRE operation (DNS resolution + connect + transfer). Invoke-RestMethod's
+    # -TimeoutSec does NOT cover DNS resolution, so under a broken/unreachable
+    # DNS server it can hang far longer than the timeout suggests and block the
+    # GUI from appearing for 10-15s instead of failing fast and consistently.
+    $proc = Start-Process -FilePath 'curl.exe' -ArgumentList @('-fsSL','--max-time','3',$depUrl,'-o',$tmpJson) -WindowStyle Hidden -Wait -PassThru
+    if ($proc.ExitCode -eq 0 -and (Test-Path $tmpJson)) {
+        $depData = Get-Content $tmpJson -Raw | ConvertFrom-Json
+        if ($depData.deprecated) {
+            foreach ($depName in $depData.deprecated) { $script:DeprecatedObsoletePolicies[$depName] = 'deprecated' }
+        }
+        if ($depData.obsolete) {
+            foreach ($depName in $depData.obsolete) { $script:DeprecatedObsoletePolicies[$depName] = 'obsolete' }
+        }
+        Remove-Item $tmpJson -Force -ErrorAction SilentlyContinue
     }
 } catch {
     # No internet access or the endpoint is unreachable - just skip the
