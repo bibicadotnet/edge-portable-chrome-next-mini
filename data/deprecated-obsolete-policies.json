@@ -19,5 +19,10 @@
     "WalletDonationEnabled",
     "WebWidgetAllowed"
   ],
-  "obsolete": []
+  "obsolete": [
+    "CollectionsServicesAndExportsBlockList",
+    "EdgeCollectionsEnabled",
+    "RelatedWebsiteSetsEnabled",
+    "RelatedWebsiteSetsOverrides"
+  ]
 }
