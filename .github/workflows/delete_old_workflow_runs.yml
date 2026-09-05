@@ -2,12 +2,18 @@ name: Delete All Workflow Runs
 
 on:
   workflow_dispatch:
+
   schedule:
     - cron: '0 20 * * *' # chạy hàng ngày lúc 20:00 UTC
+
+permissions:
+  actions: write
+  contents: read
 
 jobs:
   del_runs:
     runs-on: ubuntu-latest
+
     steps:
       - name: Delete Workflow Runs
         uses: Mattraks/delete-workflow-runs@v2
