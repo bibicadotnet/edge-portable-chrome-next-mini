@@ -17,12 +17,12 @@
                                  "tag_name":  "edge-dev-portable-x64_155.0.4273.0_v1.0.7"
                              },
                      "canary":  {
-                                    "version":  "156.0.4292.0",
+                                    "version":  "156.0.4293.0",
                                     "name":  "Microsoft Edge Canary",
-                                    "published_at":  "2026-09-21T22:26:51Z",
+                                    "published_at":  "2026-09-22T01:26:31Z",
                                     "chromeNext":  "v1.0.7",
-                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_156.0.4292.0_v1.0.7/edge-canary-portable-x64_156.0.4292.0_v1.0.7.zip",
-                                    "tag_name":  "edge-canary-portable-x64_156.0.4292.0_v1.0.7"
+                                    "download_url":  "https://github.com/bibicadotnet/edge-portable-chrome-next-mini/releases/download/edge-canary-portable-x64_156.0.4293.0_v1.0.7/edge-canary-portable-x64_156.0.4293.0_v1.0.7.zip",
+                                    "tag_name":  "edge-canary-portable-x64_156.0.4293.0_v1.0.7"
                                 },
                      "stable":  {
                                     "version":  "153.0.4234.48",
@@ -33,5 +33,5 @@
                                     "tag_name":  "edge-stable-portable-x64_153.0.4234.48_v1.0.7"
                                 }
                  },
-    "last_updated":  "2026-09-21T22:28:40Z"
+    "last_updated":  "2026-09-22T01:27:05Z"
 }
