@@ -7,6 +7,7 @@
     "InsecureFormsWarningsEnabled",
     "MicrosoftOfficeMenuEnabled",
     "NativeWindowOcclusionEnabled",
+    "OneAuthAuthenticationEnforced",
     "PromotionalTabsEnabled",
     "ProxyBypassList",
     "ProxyMode",
