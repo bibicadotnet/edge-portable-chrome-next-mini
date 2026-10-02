@@ -1,6 +1,8 @@
 {
   "deprecated": [
     "AllowGamesMenu",
+    "AutofillAddressEnabled",
+    "AutofillCreditCardEnabled",
     "BackgroundTemplateListUpdatesEnabled",
     "EdgeWalletEtreeEnabled",
     "ForceCertificatePromptsOnMultipleMatches",
