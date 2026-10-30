@@ -5,6 +5,7 @@
     "AutofillCreditCardEnabled",
     "BackForwardCacheForWebSocketsAllowed",
     "BackgroundTemplateListUpdatesEnabled",
+    "EdgeSafeHostingExtensionEnabled",
     "EdgeWalletCheckoutEnabled",
     "EdgeWalletEtreeEnabled",
     "ForceCertificatePromptsOnMultipleMatches",
