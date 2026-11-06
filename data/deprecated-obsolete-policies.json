@@ -27,6 +27,8 @@
     "WebWidgetAllowed"
   ],
   "obsolete": [
+    "BrowsingWithCopilotAllowList",
+    "BrowsingWithCopilotBlockList",
     "CollectionsServicesAndExportsBlockList",
     "EdgeCollectionsEnabled",
     "RelatedWebsiteSetsEnabled",
