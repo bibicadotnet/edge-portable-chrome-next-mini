@@ -14,6 +14,7 @@
     "NativeWindowOcclusionEnabled",
     "NewPDFReaderEnabled",
     "OneAuthAuthenticationEnforced",
+    "PerformanceDetectorEnabled",
     "PromotionalTabsEnabled",
     "ProxyBypassList",
     "ProxyMode",
