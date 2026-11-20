@@ -28,10 +28,12 @@
     "WebWidgetAllowed"
   ],
   "obsolete": [
+    "AllowBrowsingWithCopilot",
     "BrowsingWithCopilotAllowList",
     "BrowsingWithCopilotBlockList",
     "CollectionsServicesAndExportsBlockList",
     "EdgeCollectionsEnabled",
+    "LiveVideoTranslationEnabled",
     "RelatedWebsiteSetsEnabled",
     "RelatedWebsiteSetsOverrides"
   ]
