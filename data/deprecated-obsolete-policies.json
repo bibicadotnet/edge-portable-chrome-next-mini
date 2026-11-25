@@ -28,6 +28,7 @@
     "WebWidgetAllowed"
   ],
   "obsolete": [
+    "AdHocCodeSigningForPWAsEnabled",
     "AllowBrowsingWithCopilot",
     "BrowsingWithCopilotAllowList",
     "BrowsingWithCopilotBlockList",
